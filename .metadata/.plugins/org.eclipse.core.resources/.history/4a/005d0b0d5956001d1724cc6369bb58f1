@@ -1,0 +1,14 @@
+package Lab1;
+
+public class DuplicatetException extends Exception {
+
+	String field= "";
+	
+	
+	public DuplicateObjectException(String field)
+	{
+		super(Field+" already exist");
+		this.field= field;
+	}
+	
+}

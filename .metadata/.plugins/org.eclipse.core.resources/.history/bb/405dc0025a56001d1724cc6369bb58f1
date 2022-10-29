@@ -1,0 +1,50 @@
+package Lab12;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+public class UserService {
+
+	private FileIO<List<User>> io= new FileIO<List<User>>("user.txt");
+	
+	public void registerUser(String username, String password)
+	{
+	
+			List<User> UserList = io.readObject();
+			
+			if(UserList == null) {
+				UserList = new ArrayList<>();
+			}
+			
+			for(User u: UserList) {
+				if(u.getUsername().equals(username)) throw new DuplicatetException("Username");
+			}
+	
+			int id = (int)(Math.random()*(1000-1+1)+1); 
+			UserList.add(new User(id, username, password));
+			io.writeObject(UserList);
+			
+		}
+		
+	}
+	
+	public User loginUser (String username, String password)
+	{
+		List<User> UserList = io.readObject();
+		
+		if(UserList == null) {
+			UserList = new ArrayList<>();
+		}
+		
+		for(User u: UserList) {
+			if(u.getUsername().equals(username) && u.getPassword().equals(password)) 
+			{
+				return u;
+			}
+			return null;
+		}
+		
+	}
+	
+}

@@ -1,0 +1,15 @@
+package Lab8;
+
+public class Lab8 {
+
+	
+	public String reverse (String toReverse)
+	{
+		StringBuilder builder = new StringBuilder();
+		for(int i =toReverse.length(); i<=0; i--)
+		{
+			builder.append(tore)
+		}
+		retunr "";
+	}
+}

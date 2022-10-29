@@ -1,0 +1,33 @@
+package Lab11;
+
+import java.util.Iterator;
+import java.util.List;
+
+public class Lab11 {
+
+	
+	public List<String> nameList (List<Person> persons)
+	{
+		List<String> names = null;
+		for(Person p : persons)
+		{
+			names.add(p.getFirst());
+		}
+		return names;
+	}
+	
+	public Person iteratorFun (List<Person> persons)
+	{
+		int oldest = 0;
+		Iterator<Person> iterator = persons.iterator();
+		while(iterator.hasNext())
+		{
+			
+			 Person p = iterator.next();
+	            if (p.getAge() > oldest) {
+	               oldest = p.getAge();
+	            }
+		}
+		return null;
+	}
+}

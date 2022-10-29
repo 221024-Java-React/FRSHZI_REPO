@@ -1,0 +1,45 @@
+import java.awt.desktop.ScreenSleepEvent;
+
+public abstract class Test {
+	
+	interface Ifactory{
+		void getname();
+	}
+	
+	abstract class jello implements Ifactory{
+		
+	}
+
+	class Animal extends jello{
+
+		@Override
+		public void getname() {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
+	public abstract void tesMethod();
+	
+	public static void main(String [] argd)
+	{
+		
+	}
+	
+	static {
+		System.out.println("first block ");
+		try {
+			Thread.sleep(5000);
+			System.out.println("after 5 seconds ");
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	
+	}
+	
+	static {
+		System.out.println("second block ");
+	}
+}

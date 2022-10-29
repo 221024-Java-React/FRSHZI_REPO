@@ -1,0 +1,30 @@
+package Lab6;
+
+public class PremiumCustomer extends Customer implements Premium{
+	
+private int vipCardNumber;
+private int yearsAsPremium;
+
+	public PremiumCustomer(String name, double balance, StringBuilder items, double cartCost, int vipCardNumber,
+		int yearsAsPremium) {
+	super(name, balance, items, cartCost);
+	this.vipCardNumber = vipCardNumber;
+	this.yearsAsPremium = yearsAsPremium;
+}
+
+	@Override
+	public double discountPrice(double price) {
+		
+		double discountedPrice = super.cartCost *0.15;
+		
+		return discountedPrice;
+	}
+
+	@Override
+	public void buy() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+}

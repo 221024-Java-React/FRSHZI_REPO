@@ -1,0 +1,25 @@
+package Lab6;
+
+public abstract class Customer {
+
+	private String name;
+	private double balance;
+	private String items [];
+	private double carCost;
+	
+	public Customer(String name, double balance, String[] items, double carCost) {
+		super();
+		this.name = name;
+		this.balance = balance;
+		this.items = items;
+		this.carCost = carCost;
+	}
+	
+	public void addToCart(String item, double cost)
+	{
+		
+	
+	}
+	
+	
+}

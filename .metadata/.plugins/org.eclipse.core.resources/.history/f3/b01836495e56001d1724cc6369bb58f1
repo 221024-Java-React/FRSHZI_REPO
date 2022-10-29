@@ -1,0 +1,29 @@
+package Lab12;
+
+public class Lab12 {
+
+	public static void main (String [] args)
+	{
+	
+		UserService service = new UserService();
+		
+		try {
+			service.registerUser("A", "AAA");
+			System.out.println(service.loginUser("A", "AAA").toString());
+			
+			service.registerUser("C", "CCC");
+			System.out.println(service.loginUser("C", "CCC").toString());
+			
+		} catch (DuplicatetException e) {
+			e.message();
+		}
+		
+		
+		User user = service.loginUser("A", "AAA");
+		
+		
+		User user2 = service.loginUser("C", "CCC");
+		System.out.println(user2.toString());
+		
+	}
+}

@@ -1,0 +1,14 @@
+package Lab8;
+
+public class Lab9 {
+
+	
+	public char[] calculateBonuses(char[] toConvert) {
+		
+		do
+		{
+			int i =0;
+			
+		}while(i<toConvert.length);
+	}
+}

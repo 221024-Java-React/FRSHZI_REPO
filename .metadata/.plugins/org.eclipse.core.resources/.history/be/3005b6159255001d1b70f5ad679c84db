@@ -1,0 +1,49 @@
+package Lab8;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+class Lab8Tests {
+
+Lab8 lab8; 
+
+@Before 
+public void before() throws Exception {
+lab8 = new Lab8();
+}
+	
+	@Test
+	void Reserve_InputString_ReturnsReverseString()
+	{
+		Lab8  lab = new Lab8();
+		
+		String var= lab.reverse("abc");
+		
+		assertEquals(var, "cba");
+	}
+
+	@Test
+	void Reserve_EmptyString_ReturnsEmptyString()
+	{
+		Lab8  lab = new Lab8();
+		
+		String var= lab.reverse("");
+		
+		assertEquals(var, "");
+	}
+	
+	@Test
+	void Reserve_MultipleWordsInString_ReturnsReverseString()
+	{
+		Lab8  lab = new Lab8();
+		
+		String var= lab.reverse("");
+		
+		assertEquals(var, "");
+	}
+	
+
+
+}

@@ -1,0 +1,22 @@
+package Lab9;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+
+class Lab9Test {
+
+	Lab9 lab;
+	@BeforeEach 
+	public void before() {
+		lab = new Lab9();
+	}
+	
+	@Test
+	void test() {
+		fail("Not yet implemented");
+	}
+
+}

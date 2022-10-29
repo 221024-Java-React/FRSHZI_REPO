@@ -1,0 +1,23 @@
+package Lab8;
+
+public class Lab9 {
+
+	
+	public int[] calculateBonuses(char[] toConvert) {
+		int i =0;
+		int[] bonuses= new int[];
+		do
+		{
+			switch(toConvert[i])
+			{
+			case 'A': ;break;
+			case 'B': ;break;
+			case 'C': ;break;
+			case 'D': ;break;
+			case 'F': ;break;
+			default: ;break;
+			}
+			i++;
+		}while(i<toConvert.length);
+	}
+}

@@ -1,0 +1,20 @@
+package Lab7;
+
+public class OverBalanceException extends Exception {
+
+	private static final long serialVersionUID = 1L;
+    String message ="";
+    
+    
+	public OverBalanceException()
+	{
+		
+	}
+	public OverBalanceException()
+	{
+		this.message=message;
+		System.out.println(this.message);
+	}
+	
+	
+}

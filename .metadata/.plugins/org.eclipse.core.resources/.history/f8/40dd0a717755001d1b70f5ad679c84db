@@ -1,0 +1,23 @@
+package Lab8;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+class Lab8Tests {
+
+
+	@Test
+	void reserve_emptyString_ReturnsNull()
+	{
+		Lab8  lab = new Lab8();
+		
+		String var= lab.reverse("");
+		
+		assertNull(var);
+	}
+	
+	
+
+}

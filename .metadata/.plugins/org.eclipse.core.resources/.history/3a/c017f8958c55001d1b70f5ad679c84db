@@ -1,0 +1,15 @@
+package Lab6;
+
+public class Lab6 {
+	
+	public static void main (String [] args)
+	{
+		StringBuilder builder = new StringBuilder();
+		builder.append("A ").append("B ").append("C ").append("D ");
+		
+		PremiumCustomer customer = new PremiumCustomer("John", 500.0, builder, 280.0,1232546,2);
+		customer.toString();
+		
+	}
+
+}

@@ -1,0 +1,26 @@
+import java.awt.desktop.ScreenSleepEvent;
+
+public class Test {
+
+	
+	public static void main(String [] argd)
+	{
+		
+	}
+	
+	static {
+		System.out.println("first block ");
+	/*	try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+		int i = 10000;
+	while(true) { System.out.println("waiting");}
+	}
+	
+	static {
+		System.out.println("second block ");
+	}
+}

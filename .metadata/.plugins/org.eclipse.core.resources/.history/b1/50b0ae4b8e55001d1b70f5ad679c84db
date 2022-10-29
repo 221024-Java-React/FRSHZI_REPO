@@ -1,0 +1,20 @@
+package Lab7;
+
+public class OverBalanceException extends Exception {
+
+	private static final long serialVersionUID = 1L;
+
+	public void OverBalanceException()
+	{
+		
+	}
+	public void OverBalanceException()
+	{
+		
+	}
+	
+	public void message()
+	{
+		System.out.println("You cann't add more balance");
+	};
+}

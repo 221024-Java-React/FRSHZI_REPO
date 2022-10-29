@@ -1,0 +1,57 @@
+package Lab9;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+
+class Lab9Test {
+
+	Lab9 lab;
+	@BeforeEach 
+	public void before() {
+		lab = new Lab9();
+	}
+	
+	@Test
+	void CalculateBonuses_InputCharsArray_ReturnBonusesIntegerArray() {
+		
+		char [] letters = new char[]{'A', 'A', 'B','F'};
+		
+		var result = lab.calculateBonuses(letters);
+		
+		assertArrayEquals(result,  new int[]{5000,5000,2500,0});
+	}
+	
+	@Test
+	void CalculateBonuses_InputCharsArrayWithInvalidChars_ReturnBonusesIntegerArray() {
+		
+		char [] letters = new char[]{'A', 'A', 'B','F','M','S'};
+		
+		var result = lab.calculateBonuses(letters);
+		
+		assertArrayEquals(result,  new int[]{5000,5000,2500,0,-1,-1});
+	}
+	
+	@Test
+	void CalculateBonuses_InputCharsArrayWithInvalidChars_AssertWrongValueNotEquals() {
+		
+		char [] letters = new char[]{'A', 'A', 'B','F','M','S'};
+		
+		var result = lab.calculateBonuses(letters);
+		
+		assertNotEquals(result, new int[]{5000,2500,2500,0,-1,-1});
+	}
+	
+	@Test
+	void CalculateBonuses_InputCharsArray_AssertWrongValueNotEquals() {
+		
+		char [] letters = new char[]{'A', 'B','F','S'};
+		
+		var result = lab.calculateBonuses(letters);
+		
+		assertFalse(result, new int[]{5000,2500,2500,0,-1,-1});
+	}
+
+}

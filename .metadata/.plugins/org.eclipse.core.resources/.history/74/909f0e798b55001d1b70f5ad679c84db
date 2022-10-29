@@ -1,0 +1,28 @@
+package Lab6;
+
+public abstract class Customer {
+
+	public String name;
+	public double balance;
+	public StringBuilder items;
+	public double cartCost;
+	
+	public Customer(String name, double balance, StringBuilder items, double cartCost) {
+		super();
+		this.name = name;
+		this.balance = balance;
+		this.items = items;
+		this.cartCost = cartCost;
+	}
+	
+	public void addToCart(String item, double cost)
+	{
+		cartCost = cost;
+		items.append(item);
+	
+	}
+	
+	public abstract void buy();
+	
+	
+}
