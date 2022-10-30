@@ -1,0 +1,14 @@
+package lab15;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+public class PersonController {
+	
+	private ObjectMapper objectMapper;
+
+	public PersonController() {
+		super();
+		objectMapper = new ObjectMapper();
+	}
+	
+}

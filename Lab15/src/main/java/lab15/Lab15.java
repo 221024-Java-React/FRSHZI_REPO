@@ -3,8 +3,12 @@ import io.javalin.Javalin;
 
 public class Lab15 {
 
+	
+	
 	public static void main (String [] args)
 	{
+		PersonController personController = new PersonController();
+		
 		Javalin app = 
 		Javalin.create(config -> {
 		    config.plugins.enableCors(cors -> {
@@ -13,6 +17,8 @@ public class Lab15 {
 		        });
 		    });
 		});
+		
+		app.get("/person/", personController.handleGetAllPersons);
 		
 		app.start(8080);
 	}

@@ -1,0 +1,37 @@
+package lab15;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import io.javalin.http.Handler;
+
+public class PersonController {
+	
+	private ObjectMapper objectMapper;
+	private FileIO<List<Person>> io;
+
+	public PersonController() {
+		super();
+		objectMapper = new ObjectMapper();
+	}
+	
+	public Handler handleGetAll = (context) -> {
+		List<Person> pList = getAllPeople();
+		
+		context.status(200);
+		context.result(objectMapper.writeValueAsString(pList));
+	};
+	
+	
+	public List<Person> getAllPeople() {
+		List<Person> pList = io.readObject();
+		
+		if(pList == null) {
+			pList = new ArrayList<>();
+		}	
+		return pList;
+	}
+	
+}

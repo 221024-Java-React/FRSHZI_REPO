@@ -1,4 +1,5 @@
 package lab15;
+
 public class Person {
     
     private String name;
