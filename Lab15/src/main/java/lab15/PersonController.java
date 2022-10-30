@@ -40,6 +40,14 @@ public class PersonController {
 		context.result(objectMapper.writeValueAsString(person));
 	};
 
+	public Handler handleDeletePerson = (context) -> {
+		Person person = objectMapper.readValue(context.body(), Person.class);
+		deletePerson(person.getEmail());
+
+		context.status(200);
+		context.result(objectMapper.writeValueAsString(person));
+	};
+
 	public List<Person> getAllPerosns() {
 		List<Person> pList = io.readObject();
 		if (pList == null) {
@@ -69,6 +77,22 @@ public class PersonController {
 			if (pList.get(i).getEmail().equals(person.getEmail())) {
 				pList.remove(i);
 				pList.add(person);
+				return;
+			}
+		}
+
+	}
+
+	public void deletePerson(String email) {
+		List<Person> pList = io.readObject();
+
+		if (pList == null) {
+			pList = new ArrayList<>();
+		}
+
+		for (int i = 0; i < pList.size(); i++) {
+			if (pList.get(i).getEmail().equals(email)) {
+				pList.remove(i);
 				return;
 			}
 		}
