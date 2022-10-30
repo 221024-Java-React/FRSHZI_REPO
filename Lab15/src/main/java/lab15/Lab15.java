@@ -20,6 +20,7 @@ public class Lab15 {
 		
 		app.get("/person/", personController.handleGetAllPersons);
 		app.post("/person/create", personController.handleCreateNewPerson);
+		app.put("/person/update", personController.handleUpdatePerson);
 		
 		app.start(8080);
 	}
