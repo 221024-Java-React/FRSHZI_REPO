@@ -1,9 +1,11 @@
 package lab15;
 
-public class Address {
+import java.io.Serializable;
+
+public class Address implements Serializable{
     
-    private String addressLineOne;
-    //Example (APT Number)
+	private static final long serialVersionUID = 1L;
+	private String addressLineOne;
     private String addressLineTwo;
     private String city;
     private String state;

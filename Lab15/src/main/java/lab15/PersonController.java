@@ -15,6 +15,7 @@ public class PersonController {
 	public PersonController() {
 		super();
 		objectMapper = new ObjectMapper();
+		this.io = new FileIO<List<Person>>("person.txt");
 	}
 
 	public Handler handleGetAllPersons = (context) -> {
@@ -77,6 +78,7 @@ public class PersonController {
 			if (pList.get(i).getEmail().equals(person.getEmail())) {
 				pList.remove(i);
 				pList.add(person);
+				io.writeObject(pList);
 				return;
 			}
 		}
@@ -93,6 +95,7 @@ public class PersonController {
 		for (int i = 0; i < pList.size(); i++) {
 			if (pList.get(i).getEmail().equals(email)) {
 				pList.remove(i);
+				io.writeObject(pList);
 				return;
 			}
 		}

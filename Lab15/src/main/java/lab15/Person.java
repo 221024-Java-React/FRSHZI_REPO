@@ -1,14 +1,17 @@
 package lab15;
 
-public class Person {
+import java.io.Serializable;
+
+public class Person implements Serializable{
     
-    private String name;
+	private static final long serialVersionUID = 1L;
+	private String name;
     private int age;
     private String email;
-    private long socialsecurity;
+    private transient long socialsecurity;
     private Address address;
     
-    public Person() {
+    public Person()  {
     }
 
     public Person(String name, int age, String email, long socialsecurity, Address address) {

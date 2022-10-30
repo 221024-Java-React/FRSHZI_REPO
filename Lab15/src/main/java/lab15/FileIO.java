@@ -30,7 +30,7 @@ public class FileIO<T> {
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} catch (NullPointerException e) {return null;}
 		return null;
 		
 	}
