@@ -24,14 +24,6 @@ public class PersonController {
 		context.result(objectMapper.writeValueAsString(pList));
 	};
 	
-	public Handler handleCreateNewPerson = (context) -> {
-		Person person = objectMapper.readValue(context.body(), Person.class);
-		createNewPerson(person);
-		
-		context.status(200);
-		context.result(objectMapper.writeValueAsString(person));
-	};
-	
 	
 	public List<Person> getAllPerosns() {
 		List<Person> pList = io.readObject();
@@ -40,18 +32,6 @@ public class PersonController {
 			pList = new ArrayList<>();
 		}	
 		return pList;
-	}
-	
-	
-	public void createNewPerson(Person person)
-	{
-		List<Person> pList = io.readObject();
-		if(pList == null) {
-			pList = new ArrayList<>();
-		}
-		
-		pList.add(person);
-		io.writeObject(pList);
 	}
 	
 }

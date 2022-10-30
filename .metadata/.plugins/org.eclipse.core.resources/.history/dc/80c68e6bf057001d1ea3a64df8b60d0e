@@ -51,6 +51,7 @@ public class PersonController {
 		}
 		
 		pList.add(person);
+		
 		io.writeObject(pList);
 	}
 	

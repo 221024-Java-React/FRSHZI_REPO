@@ -19,7 +19,7 @@ public class Lab15 {
 		});
 		
 		app.get("/person/", personController.handleGetAllPersons);
-		app.post("/person/create", personController.handleCreateNewPerson);
+		app.post("/person/create", personController.hanleCreateNewPerson);
 		
 		app.start(8080);
 	}

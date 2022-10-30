@@ -26,10 +26,10 @@ public class PersonController {
 	
 	public Handler handleCreateNewPerson = (context) -> {
 		Person person = objectMapper.readValue(context.body(), Person.class);
-		createNewPerson(person);
+		List<Person> pList = createNewPerson(person);
 		
 		context.status(200);
-		context.result(objectMapper.writeValueAsString(person));
+		context.result(objectMapper.writeValueAsString(pList));
 	};
 	
 	
@@ -51,6 +51,7 @@ public class PersonController {
 		}
 		
 		pList.add(person);
+		
 		io.writeObject(pList);
 	}
 	
