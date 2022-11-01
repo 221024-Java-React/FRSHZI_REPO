@@ -5,21 +5,33 @@ import java.util.List;
 import Model.Ticket;
 
 public class TicketDAO implements ITicketDAO{
-
+	
 	@Override
-	public int createTicketByEmployee(Ticket ticket) {
+	public boolean submitNewTicketByEmloyee(Ticket ticket) {
 		// TODO Auto-generated method stub
-		return 0;
+		return false;
 	}
 
 	@Override
-	public int processTicketByEmployer(Ticket ticket) {
+	public List<Ticket> getPendingTickets() {
 		// TODO Auto-generated method stub
-		return 0;
+		return null;
 	}
 
 	@Override
-	public List<Ticket> viewPreviousTicketsByEmployee(int employeeID) {
+	public List<Ticket> viewTicketHistory(int employeeID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean processPendingTicket(Ticket ticket) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<Ticket> getTicketsBYFilter(String filter) {
 		// TODO Auto-generated method stub
 		return null;
 	}

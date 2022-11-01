@@ -7,7 +7,7 @@ import Model.Ticket;
 
 public class TicketServiceFactory {
 
-	static TicketService createTicketService(ITicketDAO iTicketDAO)
+	public static TicketService createTicketService(ITicketDAO iTicketDAO)
 	{
 		
 		return new TicketService(iTicketDAO);

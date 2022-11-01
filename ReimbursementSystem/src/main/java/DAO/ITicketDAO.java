@@ -15,5 +15,5 @@ public interface ITicketDAO {
 	List<Ticket> viewTicketHistory(int employeeID);
 	
 	boolean processPendingTicket(Ticket ticket);
-	
+
 }
