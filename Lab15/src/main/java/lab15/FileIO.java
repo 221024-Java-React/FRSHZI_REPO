@@ -16,19 +16,19 @@ public class FileIO<T> {
 	}
 	
 	public T readObject(){
+		
 		T ret;
 		try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename))) {
 			ret = (T) ois.readObject();
 			return ret;
+			
+			
+			
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
 			System.out.println("No one has written to the file yet");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NullPointerException e) {return null;}
 		return null;
