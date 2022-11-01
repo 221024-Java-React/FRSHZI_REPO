@@ -2,32 +2,40 @@ package Service;
 
 import java.awt.Image;
 
+import DAO.IAuthDAO;
 import Model.User;
 
-public class AuthService implements IAuthService{
+public class AuthService {
+   private IAuthDAO iAuthDAO;
+   
+   
+	public AuthService(IAuthDAO iAuthDAO) {
+	super();
+	this.iAuthDAO = iAuthDAO;
+}
 
-	@Override
+	
 	public boolean Register(String username, String password) {
 		// TODO Auto-generated method stub
-		return false;
+		return iAuthDAO.RegisterWithUsernameAndPassword(username, password);
 	}
 
-	@Override
+
 	public User Login(String username, String password) {
 		// TODO Auto-generated method stub
-		return null;
+		return iAuthDAO.LoginWithUsernameAndPassword(username, password);
 	}
 
-	@Override
+	
 	public boolean EditProfile(User user) {
 		// TODO Auto-generated method stub
-		return false;
+		return iAuthDAO.updateUserProfile(user);
 	}
 
-	@Override
+
 	public boolean UploadPicture(Image image) {
 		// TODO Auto-generated method stub
-		return false;
+		return iAuthDAO.uploadUserPicture(image);
 	}
 
 }

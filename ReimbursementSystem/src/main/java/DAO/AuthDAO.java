@@ -13,9 +13,9 @@ public class AuthDAO implements IAuthDAO{
 	}
 
 	@Override
-	public int RegisterWithUsernameAndPassword(String username, String password) {
+	public boolean RegisterWithUsernameAndPassword(String username, String password) {
 		// TODO Auto-generated method stub
-		return 0;
+		return false;
 	}
 
 	@Override
@@ -25,21 +25,21 @@ public class AuthDAO implements IAuthDAO{
 	}
 
 	@Override
-	public void updateUserProfile(User user) {
+	public boolean updateUserProfile(User user) {
 		// TODO Auto-generated method stub
-		
+		return false;
 	}
 
 	@Override
-	public void uploadUserPicture(Image image) {
+	public boolean uploadUserPicture(Image image) {
 		// TODO Auto-generated method stub
-		
+		return false;
 	}
 
 	@Override
-	public void ManagerChangeRole(User user) {
+	public boolean ManagerChangeRole(User user) {
 		// TODO Auto-generated method stub
-		
+		return false;
 	}
 
 }

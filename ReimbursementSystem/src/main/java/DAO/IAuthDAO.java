@@ -8,15 +8,15 @@ public interface IAuthDAO {
 
 	User LoginWithUsernameAndPassword(String username , String password);
 	
-	int RegisterWithUsernameAndPassword(String username, String password);
+	boolean RegisterWithUsernameAndPassword(String username, String password);
 	
 	boolean checkUsernameIsAvailable(String username);
 	
-	void updateUserProfile(User user);
+	boolean updateUserProfile(User user);
 	
-	void uploadUserPicture(Image image);
+	boolean uploadUserPicture(Image image);
 	
-	void ManagerChangeRole(User user);
+	boolean ManagerChangeRole(User user);
 	
 	
 }

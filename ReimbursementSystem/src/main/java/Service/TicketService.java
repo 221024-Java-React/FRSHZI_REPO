@@ -2,38 +2,41 @@ package Service;
 
 import java.util.List;
 
+import DAO.ITicketDAO;
 import Model.Ticket;
 
-public class TicketService implements ITicketService{
+public class TicketService{
+ITicketDAO iTicketDAO;
 
-	@Override
+
+	public TicketService(ITicketDAO iTicketDAO) {
+	super();
+	this.iTicketDAO = iTicketDAO;
+}
+
 	public List<Ticket> getTicketsBYFilter(String filter) {
 		// TODO Auto-generated method stub
-		return null;
+		return iTicketDAO.getTicketsBYFilter(filter);
 	}
 
-	@Override
 	public boolean submitNewTicketByEmloyee(Ticket ticket) {
 		// TODO Auto-generated method stub
-		return false;
+		return iTicketDAO.submitNewTicketByEmloyee(ticket);
 	}
 
-	@Override
 	public List<Ticket> getPendingTickets() {
 		// TODO Auto-generated method stub
-		return null;
+		return iTicketDAO.getPendingTickets();
 	}
 
-	@Override
 	public List<Ticket> viewTicketHistory(int employeeID) {
 		// TODO Auto-generated method stub
-		return null;
+		return iTicketDAO.viewTicketHistory(employeeID);
 	}
 
-	@Override
 	public boolean processPendingTicket(Ticket ticket) {
 		// TODO Auto-generated method stub
-		return false;
+		return iTicketDAO.processPendingTicket(ticket);
 	}
 
 }

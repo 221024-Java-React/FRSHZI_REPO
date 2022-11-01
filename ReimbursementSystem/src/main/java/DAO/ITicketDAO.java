@@ -5,12 +5,15 @@ import java.util.List;
 import Model.Ticket;
 
 public interface ITicketDAO {
-
-	int createTicketByEmployee(Ticket ticket);
 	
-	int processTicketByEmployer(Ticket ticket);
+    List<Ticket> getTicketsBYFilter(String filter);
 	
-	List<Ticket> viewPreviousTicketsByEmployee(int employeeID);
+	boolean submitNewTicketByEmloyee(Ticket ticket);
 	
+	List<Ticket> getPendingTickets();
+	
+	List<Ticket> viewTicketHistory(int employeeID);
+	
+	boolean processPendingTicket(Ticket ticket);
 	
 }
