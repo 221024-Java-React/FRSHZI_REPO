@@ -1,0 +1,9 @@
+package Lab6;
+
+public interface Premium {
+
+	public static final String title = "VIP";
+	
+	public double discountPrice (double startingPrice);
+	
+}

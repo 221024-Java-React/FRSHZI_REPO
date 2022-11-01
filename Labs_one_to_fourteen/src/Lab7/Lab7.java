@@ -1,0 +1,27 @@
+package Lab7;
+
+import Lab6.PremiumCustomer;
+
+public class Lab7 {
+
+	
+	public static void main (String args[])
+	{
+		StringBuilder builder = new StringBuilder();
+		builder.append("A ").append("B ").append("C ").append("D ");
+		
+		PremiumCustomer customer = new PremiumCustomer("John", 500.0, builder, 450.0,1232546,2);
+		
+		System.out.println(customer.toString());
+		
+		customer.addToCart("F ", 195.0);
+		System.out.println(customer.toString());
+		
+		try {
+			customer.buy();
+		} catch (OverBalanceException e) {
+			e.printStackTrace();
+		}
+		System.out.println(customer.toString());
+	}
+}
