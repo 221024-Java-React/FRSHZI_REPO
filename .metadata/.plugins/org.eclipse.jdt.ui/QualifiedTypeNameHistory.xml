@@ -19,7 +19,19 @@
     <fullyQualifiedTypeName name="java.util.Random"/>
     <fullyQualifiedTypeName name="com.fasterxml.jackson.databind.ObjectMapper"/>
     <fullyQualifiedTypeName name="io.javalin.http.Handler"/>
-    <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="java.io.Serializable"/>
+    <fullyQualifiedTypeName name="io.javalin.Javalin"/>
+    <fullyQualifiedTypeName name="Model.User"/>
+    <fullyQualifiedTypeName name="java.awt.Image"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="Model.Ticket"/>
+    <fullyQualifiedTypeName name="org.slf4j.Logger"/>
+    <fullyQualifiedTypeName name="org.slf4j.LoggerFactory"/>
+    <fullyQualifiedTypeName name="Service.AuthService"/>
+    <fullyQualifiedTypeName name="Service.AuthServiceFactory"/>
+    <fullyQualifiedTypeName name="DAO.IAuthDAO"/>
+    <fullyQualifiedTypeName name="DAO.ITicketDAO"/>
+    <fullyQualifiedTypeName name="Service.TicketService"/>
+    <fullyQualifiedTypeName name="Service.TicketServiceFactory"/>
 </qualifiedTypeNameHistroy>

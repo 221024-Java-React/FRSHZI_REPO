@@ -2,6 +2,7 @@
 <section name="Workbench">
 	<section name="MavenProjectWizardLocationPage">
 		<list key="location">
+			<item value="C:\Users\Dell\Desktop\project_one"/>
 			<item value="C:\Users\Dell\Documents\Job\revature\javaProjects\Labs\src\Lab6\Lab6.java"/>
 		</list>
 		<list key="projectNameTemplate">
@@ -44,12 +45,14 @@
 	</section>
 	<section name="MavenProjectWizardArtifactPage">
 		<list key="groupId">
+			<item value="com.project.one"/>
 			<item value="com.example.lab15"/>
 			<item value="com.weekOne"/>
 		</list>
 		<list key="name">
 		</list>
 		<list key="artifactId">
+			<item value="TickitingSystem"/>
 			<item value="Lab15"/>
 			<item value="FirsrTDDExample"/>
 		</list>
