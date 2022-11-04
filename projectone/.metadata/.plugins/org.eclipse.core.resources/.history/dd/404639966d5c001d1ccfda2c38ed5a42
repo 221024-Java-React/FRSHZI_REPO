@@ -1,0 +1,115 @@
+package Model;
+
+import java.io.Serializable;
+import java.sql.Date;
+import java.sql.Timestamp;
+
+public class Ticket implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	private String ID;
+	private double amount;
+	private String description;
+	private TicketStatus status;
+	private TicketType type;
+	private Person person;
+	private String receipt_image;
+	private Timestamp created_date;
+	
+	
+	public Ticket() {
+		super();
+	}
+	
+	public Ticket(String iD, double amount, String description, TicketStatus status, TicketType type,
+			String receipt_image, Timestamp created_date) {
+		super();
+		ID = iD;
+		this.amount = amount;
+		this.description = description;
+		this.status = status;
+		this.type = type;
+		this.receipt_image = receipt_image;
+		this.created_date = created_date;
+	}
+
+
+
+	public String getID() {
+		return ID;
+	}
+	public void setID(String iD) {
+		ID = iD;
+	}
+	public double getAmount() {
+		return amount;
+	}
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public TicketStatus getStatus() {
+		return status;
+	}
+
+
+
+	public void setStatus(TicketStatus status) {
+		this.status = status;
+	}
+
+
+
+	public TicketType getType() {
+		return type;
+	}
+
+
+
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+
+
+
+	public String getReceipt_image() {
+		return receipt_image;
+	}
+
+
+
+	public void setReceipt_image(String receipt_image) {
+		this.receipt_image = receipt_image;
+	}
+
+
+
+	public Timestamp getCreated_date() {
+		return created_date;
+	}
+
+
+
+	public void setCreated_date(Timestamp created_date) {
+		this.created_date = created_date;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "Ticket [ID=" + ID + ", amount=" + amount + ", description=" + description + ", status=" + status
+				+ ", type=" + type + ", person=" + person + ", receipt_image=" + receipt_image + ", created_date="
+				+ created_date.toLocalDateTime() + "]";
+	}
+
+	
+
+}

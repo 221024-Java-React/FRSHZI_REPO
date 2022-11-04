@@ -1,0 +1,23 @@
+package Controller;
+
+import DAO.ITicketDAO;
+import Model.Person;
+import Service.TicketService;
+import Service.TicketServiceFactory;
+import io.javalin.http.Handler;
+
+public class TicketController {
+ITicketDAO iTicketDAO;
+
+TicketService tickerServise = TicketServiceFactory.createTicketService(iTicketDAO);
+
+
+public Handler handleSubmitTicket = (context) -> {
+	
+	Person person = objectMapper.readValue(context.body(), Person.class);
+	System.out.println(person);
+	authService.Register(person);
+	context.status(201);
+	context.result(objectMapper.writeValueAsString(person));
+};
+}

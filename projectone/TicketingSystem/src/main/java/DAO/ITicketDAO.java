@@ -1,0 +1,21 @@
+package DAO;
+
+import java.util.List;
+
+import Model.Ticket;
+
+public interface ITicketDAO {
+	
+    List<Ticket> getTicketsByType(int employee_id, int type);
+    
+    List<Ticket> getTicketsByStatus(int employee_id, int status);
+	
+	boolean submitNewTicketByEmloyee(Ticket ticket);
+	
+	List<Ticket> getPendingTickets();
+	
+	List<Ticket> viewTicketHistory(int employeeID);
+	
+	List<Ticket> processPendingTickets();
+
+}

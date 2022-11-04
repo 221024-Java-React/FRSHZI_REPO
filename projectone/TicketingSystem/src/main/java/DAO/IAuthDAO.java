@@ -1,0 +1,20 @@
+package DAO;
+
+import java.awt.Image;
+
+import Model.Person;
+
+public interface IAuthDAO {
+
+	Person LoginWithUsernameAndPassword(String username , String password);
+	
+	boolean RegisterWithUsernameAndPassword(Person person);
+	
+	boolean updateUserProfile(Person user);
+	
+	boolean uploadUserPicture(Image image);
+	
+	boolean ManagerChangeRole(Person user);
+	
+	
+}

@@ -1,0 +1,102 @@
+package DAO;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import Model.Address;
+import Model.Person;
+import Model.Role;
+import Model.Ticket;
+import Utils.JDBCConnectionUtil;
+
+public class TicketDAO implements ITicketDAO{
+	
+	private JDBCConnectionUtil conUtil = JDBCConnectionUtil.getInstance();
+	Connection connection = conUtil.getConnection();
+	String sql = "";
+	PreparedStatement prepared;
+	
+	public List<Ticket> getTicketsBYFilter(String filter) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean submitNewTicketByEmloyee(Ticket ticket)
+	{
+		try {
+		sql = "insert into ticket (amount, description, employee_id, status_id, type_id, receipt_image, created_date) VALUES (?,?,?,?,?,?,?)";
+		prepared = connection.prepareStatement(sql);
+        
+		int status = ticket.getStatus().ordinal() + 1;
+		int type = ticket.getType().ordinal() + 1;
+		
+		LocalDateTime now = LocalDateTime.now();
+        Timestamp timestamp = Timestamp.valueOf(now);
+        
+		prepared.setDouble(1, ticket.getAmount());
+		prepared.setString(2, ticket.getDescription());
+		prepared.setInt(3, Person.getID());
+		prepared.setInt(4, status);
+		prepared.setInt(5, type);
+		prepared.setString(6, "");
+		prepared.setTimestamp(7,timestamp);
+		 int affectedRows = prepared.executeUpdate();
+         if(affectedRows>0) return true;
+		 return false;
+		}catch(Exception e1) {
+			System.out.println("Cannot submit a ticket");
+			e1.printStackTrace();
+			return false;
+		}
+		}
+
+	public List<Ticket> getPendingTickets() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Ticket> viewTicketHistory(int employeeID) {
+		Ticket ticket = null;
+		sql = "SELECT * FROM ticket WHERE employee_id=?";
+		try {
+			prepared = connection.prepareStatement(sql);
+			prepared.setInt(1, employeeID);
+
+			ResultSet result = prepared.executeQuery();
+			while (result.next()) {
+				ticket = new Ticket();
+				ticket.setID(result.getInt(1));
+				
+				if (result.getInt(7) == 1) {
+					person.setRole(Role.MANAGER);
+				} else {
+					person.setRole(Role.EMPLOYEE);
+				}
+				address.setId(result.getInt(8));
+				address.setStreet(result.getString(9));
+				address.setCity(result.getString(10));
+				address.setState(result.getString(11));
+				address.setZipcode(result.getInt(12));
+				person.setAddress(address);
+				System.out.println(person.toString());
+			}
+		} catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		return ticket;
+	}
+		return null;
+	}
+
+	public boolean processPendingTicket(Ticket ticket) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	
+}

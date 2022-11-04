@@ -1,0 +1,28 @@
+package Controller;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import DAO.IAuthDAO;
+import Model.Person;
+import Service.AuthService;
+import Service.AuthServiceFactory;
+import io.javalin.http.Handler;
+
+public class AuthController {
+
+	IAuthDAO iAuthDAO;
+	AuthService authService = AuthServiceFactory.createAuthService(iAuthDAO);
+	private ObjectMapper objectMapper;
+	
+	
+	
+        public Handler handleRegister = (context) -> {
+	
+		Person person = objectMapper.readValue(context.body(), Person.class);
+		System.out.println(person);
+		authService.Register(person);
+		context.status(201);
+		context.result(objectMapper.writeValueAsString(person));
+	};
+	
+}

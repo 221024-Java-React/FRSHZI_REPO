@@ -1,0 +1,38 @@
+package Controller;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import DAO.ITicketDAO;
+import Model.Person;
+import Model.Ticket;
+import Service.TicketService;
+import Service.TicketServiceFactory;
+import io.javalin.http.Handler;
+
+public class TicketController {
+	
+	ITicketDAO iTicketDAO;
+	private ObjectMapper objectMapper;
+	private TicketService ticketService;
+	
+	
+        public TicketController(ITicketDAO iTicketDAO) {
+		super();
+		this.objectMapper = new ObjectMapper();
+		this.iTicketDAO = iTicketDAO;
+		ticketService = TicketServiceFactory.createTicketService(iTicketDAO);
+	}
+
+
+public Handler handleSubmitTicket = (context) -> {
+	if(Person.getID()<=0)
+		context.status(401);
+	else {
+	Ticket ticket = objectMapper.readValue(context.body(), Ticket.class);
+	System.out.println(ticket);
+	ticketService.submitNewTicketByEmloyee(ticket);
+	context.status(201);
+	context.result(objectMapper.writeValueAsString(ticket));
+	}
+	};
+}

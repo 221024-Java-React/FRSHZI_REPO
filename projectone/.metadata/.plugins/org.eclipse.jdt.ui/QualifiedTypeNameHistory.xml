@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="io.javalin.Javalin"/>
+    <fullyQualifiedTypeName name="java.sql.Connection"/>
+    <fullyQualifiedTypeName name="Utils.JDBCConnectionUtil"/>
+    <fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
+    <fullyQualifiedTypeName name="java.sql.SQLException"/>
+    <fullyQualifiedTypeName name="java.io.Serializable"/>
+    <fullyQualifiedTypeName name="com.fasterxml.jackson.databind.ObjectMapper"/>
+    <fullyQualifiedTypeName name="io.javalin.http.Handler"/>
+    <fullyQualifiedTypeName name="Model.Person"/>
+    <fullyQualifiedTypeName name="Controller.AuthController"/>
+    <fullyQualifiedTypeName name="Service.AuthService"/>
+    <fullyQualifiedTypeName name="Controller.TicketController"/>
+    <fullyQualifiedTypeName name="DAO.IAuthDAO"/>
+    <fullyQualifiedTypeName name="DAO.AuthDAO"/>
+    <fullyQualifiedTypeName name="DAO.ITicketDAO"/>
+    <fullyQualifiedTypeName name="DAO.TicketDAO"/>
+    <fullyQualifiedTypeName name="java.sql.ResultSet"/>
+    <fullyQualifiedTypeName name="java.lang.System"/>
+    <fullyQualifiedTypeName name="Model.Address"/>
+    <fullyQualifiedTypeName name="Model.Role"/>
+    <fullyQualifiedTypeName name="java.util.Map"/>
+    <fullyQualifiedTypeName name="java.util.LinkedHashMap"/>
+</qualifiedTypeNameHistroy>

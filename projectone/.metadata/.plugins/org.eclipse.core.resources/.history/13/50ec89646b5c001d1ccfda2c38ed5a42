@@ -1,0 +1,74 @@
+package DAO;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+import Model.Person;
+import Model.Ticket;
+import Utils.JDBCConnectionUtil;
+
+public class TicketDAO implements ITicketDAO{
+	
+	private JDBCConnectionUtil conUtil = JDBCConnectionUtil.getInstance();
+	Connection connection = conUtil.getConnection();
+	String sql = "";
+	PreparedStatement prepared;
+	
+	public List<Ticket> getTicketsBYFilter(String filter) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean submitNewTicketByEmloyee(Ticket ticket)
+	{
+		try {
+		sql = "insert into Ticket VALUES (?,?,?,?,?,?,?)";
+		prepared = connection.prepareStatement(sql);
+        
+		int status = ticket.getStatus().ordinal() + 1;
+		int type = ticket.getType().ordinal() + 1;
+		
+		LocalDateTime now = LocalDateTime.now();
+        Timestamp timestamp = Timestamp.valueOf(now);
+
+		prepared.setDouble(1, ticket.getAmount());
+		prepared.setString(2, ticket.getDescription());
+		prepared.setInt(3, Person.getID());
+		prepared.setInt(4, status);
+		prepared.setInt(5, type);
+		prepared.setString(6, "");
+		prepared.setTimestamp(7,timestamp);
+		 int affectedRows = prepared.executeUpdate();
+         if(affectedRows>0) return true;
+		 return false;
+		}catch(Exception e1) {
+			System.out.println("Cannot submit a ticket");
+			return false;
+		}
+		}
+
+	public List<Ticket> getPendingTickets() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Ticket> viewTicketHistory(int employeeID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean processPendingTicket(Ticket ticket) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	
+}

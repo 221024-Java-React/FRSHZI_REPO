@@ -1,0 +1,37 @@
+import Controller.AuthController;
+import Controller.TicketController;
+import DAO.AuthDAO;
+import DAO.IAuthDAO;
+import Service.AuthService;
+import io.javalin.Javalin;
+
+public class TicketingSystemClass {
+	
+	                                                                                                                                                                                                                                                                                                                                                                                                                               
+	
+	public static void main (String [] args)
+	{
+		AuthController authController = new AuthController();
+	    TicketController ticketController = new TicketController();    
+		
+		Javalin app = Javalin.create(config -> {
+		    config.plugins.enableCors(cors -> {
+		        cors.add(it -> {
+		            it.anyHost();                                          
+		        });
+		    });                                             
+		});
+		
+		app.post("/user/register", authController.handleRegister);
+	//	app.get("/user/login", AuthController.handleLogin);
+   //	app.put("/user/editProfile", AuthController.handleEditProfile);
+ //		app.put("/user/uploadPicture", AuthController.handleUploadPicture);
+	//	app.get("/ticket/getTicketsbyFilter", TicketController.handleGetTicketsByFilter);
+	//	app.post("ticket/submitTicket", TickerController.handleSubmitTicket);
+	//	app.post("ticket/ProcessPendingTickets", TickerController.handleProcessPendingTickets);
+	//	app.post("ticket/ViewTicketHistory", TickerController.handleViewTicketHistory);
+		
+		app.start(8000);
+		
+	}
+}
