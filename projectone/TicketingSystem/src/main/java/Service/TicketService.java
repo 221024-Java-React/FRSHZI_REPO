@@ -13,14 +13,14 @@ public class TicketService {
 		this.iTicketDAO = iTicketDAO;
 	}
 
-	public List<Ticket> getTicketsBYType(int employee_id, int type) {
+	public List<Ticket> getTicketsBYType(String type) {
 		// TODO Auto-generated method stub
-		return iTicketDAO.getTicketsByType(employee_id, type);
+		return iTicketDAO.getTicketsByType(type);
 	}
 
-	public List<Ticket> getTicketsBYStatus(int employee_id, int status) {
+	public List<Ticket> getTicketsBYStatus(String status) {
 		// TODO Auto-generated method stub
-		return iTicketDAO.getTicketsByStatus(employee_id, status);
+		return iTicketDAO.getTicketsByStatus(status);
 	}
 
 	public boolean submitNewTicketByEmloyee(Ticket ticket) {
@@ -33,9 +33,9 @@ public class TicketService {
 		return iTicketDAO.getPendingTickets();
 	}
 
-	public List<Ticket> viewTicketHistory(int employeeID) {
+	public List<Ticket> viewTicketHistory() {
 		// TODO Auto-generated method stub
-		return iTicketDAO.viewTicketHistory(employeeID);
+		return iTicketDAO.viewTicketHistory();
 	}
 
 	public List<Ticket> processPendingTickets() {

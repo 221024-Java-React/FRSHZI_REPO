@@ -5,10 +5,10 @@ import java.io.Serializable;
 public class Person implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	private static int ID;
+	private  int ID;
 	private String name;
 	private String username;
-	private transient String password;
+	private String password;
 	private String email;
 	private Address address;
 	private String picture;
@@ -30,10 +30,10 @@ public class Person implements Serializable{
 		this.role= role;
 		
 	}
-	public static int getID() {
+	public  int getID() {
 		return ID;
 	}
-	public static void setID(int iD) {
+	public  void setID(int iD) {
 		ID = iD;
 	}
 	public String getName() {

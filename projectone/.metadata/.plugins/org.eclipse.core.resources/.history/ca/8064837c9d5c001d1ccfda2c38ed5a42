@@ -1,0 +1,19 @@
+package Utils;
+
+import Model.Person;
+
+public class Helper {
+
+	private static Person person;
+
+	public static Person getPerson() {
+		return person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+	
+	
+	
+}

@@ -19,6 +19,7 @@ public class AuthController {
 	
 	
         public AuthController(IAuthDAO iAuthDAO) {
+        	
 		super();
 		this.objectMapper = new ObjectMapper();
 		this.iAuthDAO = iAuthDAO;
@@ -44,9 +45,13 @@ public class AuthController {
 		
 		Map<String, String> body = objectMapper.readValue(context.body(), LinkedHashMap.class);
 		Person login=  authService.Login(body.get("email"), body.get("password"));
+		if(login ==null)context.status(404);
+		else
+		{
 		context.status(200);
 		context.result(objectMapper.writeValueAsString(login));
-	};
+		}
+		};
 	
         public Handler handleEditProfile = (context) -> {
  		

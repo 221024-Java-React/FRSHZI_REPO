@@ -28,8 +28,10 @@ public class TicketingSystemClass {
 		
 		app.post("/user/register", authController.handleRegister);
 		app.get("/user/login", authController.handleLogin);
-     	//app.put("/user/editProfile", AuthController.handleEditProfile);
+     	//app.put("/user/editProfile", authController.handleEditProfile);
  //		app.put("/user/uploadPicture", AuthController.handleUploadPicture);
+		//app.put("/user/ChangeRoleByManager", authController.handleChangeRole);
+		//app.put("/user/uploadPicture", authController.handleUploadPicture);
 		app.get("/ticket/getTicketsbyType", ticketController.handleGetTicketsByType);
 		app.get("/ticket/getTicketsbyStatus", ticketController.handleGetTicketsByStatus);
 		app.get("/ticket/ViewPendingTickets", ticketController.handleViewPendingTickets);

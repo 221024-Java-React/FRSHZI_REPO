@@ -8,7 +8,6 @@
     <fullyQualifiedTypeName name="java.io.Serializable"/>
     <fullyQualifiedTypeName name="com.fasterxml.jackson.databind.ObjectMapper"/>
     <fullyQualifiedTypeName name="io.javalin.http.Handler"/>
-    <fullyQualifiedTypeName name="Model.Person"/>
     <fullyQualifiedTypeName name="Controller.AuthController"/>
     <fullyQualifiedTypeName name="Service.AuthService"/>
     <fullyQualifiedTypeName name="Controller.TicketController"/>
@@ -17,9 +16,22 @@
     <fullyQualifiedTypeName name="DAO.ITicketDAO"/>
     <fullyQualifiedTypeName name="DAO.TicketDAO"/>
     <fullyQualifiedTypeName name="java.sql.ResultSet"/>
-    <fullyQualifiedTypeName name="java.lang.System"/>
     <fullyQualifiedTypeName name="Model.Address"/>
+    <fullyQualifiedTypeName name="java.time.format.DateTimeFormatter"/>
+    <fullyQualifiedTypeName name="java.time.LocalDateTime"/>
+    <fullyQualifiedTypeName name="java.time.LocalDate"/>
+    <fullyQualifiedTypeName name="java.sql.Date"/>
+    <fullyQualifiedTypeName name="Model.Ticket"/>
+    <fullyQualifiedTypeName name="java.sql.Timestamp"/>
+    <fullyQualifiedTypeName name="java.time.Instant"/>
+    <fullyQualifiedTypeName name="java.lang.System"/>
     <fullyQualifiedTypeName name="Model.Role"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="java.util.Map"/>
     <fullyQualifiedTypeName name="java.util.LinkedHashMap"/>
+    <fullyQualifiedTypeName name="Model.TicketType"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="Model.Person"/>
+    <fullyQualifiedTypeName name="Utils.Helper"/>
+    <fullyQualifiedTypeName name="Model.TicketStatus"/>
 </qualifiedTypeNameHistroy>

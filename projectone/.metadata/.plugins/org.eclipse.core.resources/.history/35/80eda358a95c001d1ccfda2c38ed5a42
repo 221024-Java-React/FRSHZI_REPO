@@ -1,0 +1,25 @@
+package Model;
+
+public enum Role {
+
+	 MANAGER(1), EMPLOYEE(2);
+	
+	 private final int value;
+	 
+	    private Role(int value) {
+	        this.value = value;
+	    }
+
+	    public int getValue() {
+	        return value;
+	    }
+	    
+	    public int getValue(String v)
+	    {
+	    	if(v.equalsIgnoreCase("pending")) return 1;
+	    	if(v.equalsIgnoreCase("approved")) return 2;
+	    	if(v.equalsIgnoreCase("denied"))return 3;
+	    	
+			return 4;
+	    }
+}

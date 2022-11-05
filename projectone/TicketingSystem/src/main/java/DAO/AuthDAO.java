@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import Model.Address;
 import Model.Person;
 import Model.Role;
+import Utils.Helper;
 import Utils.JDBCConnectionUtil;
 
 public class AuthDAO implements IAuthDAO {
@@ -54,6 +55,7 @@ public class AuthDAO implements IAuthDAO {
 		{
 			e.printStackTrace();
 		}
+		Helper.setPerson(person);
 		return person;
 	}
 
@@ -91,10 +93,7 @@ public class AuthDAO implements IAuthDAO {
 		return false;
 	}
 
-	public boolean updateUserProfile(Person user) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 
 	public boolean uploadUserPicture(Image image) {
 		// TODO Auto-generated method stub
@@ -132,6 +131,12 @@ public class AuthDAO implements IAuthDAO {
 		if (result.next())
 			return false;
 		return true;
+	}
+
+	@Override
+	public boolean updateUserProfile(Person user) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

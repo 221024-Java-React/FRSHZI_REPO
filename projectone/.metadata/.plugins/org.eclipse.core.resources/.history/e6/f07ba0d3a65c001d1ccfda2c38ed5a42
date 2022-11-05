@@ -1,0 +1,18 @@
+package Model;
+
+public enum TicketType {
+
+	 TRAVEL(1),
+	  LODGING(2),
+	  FOOD(3),
+	  OTHER(4);
+	
+	 private static final int value = 0;
+	    private TicketType(int v) {
+	        value = value;
+	    }
+
+	    public static int getValue() {
+	        return value;
+	    }
+}

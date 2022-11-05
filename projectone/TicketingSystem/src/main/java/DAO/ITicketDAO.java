@@ -6,15 +6,15 @@ import Model.Ticket;
 
 public interface ITicketDAO {
 	
-    List<Ticket> getTicketsByType(int employee_id, int type);
+    List<Ticket> getTicketsByType(String type);
     
-    List<Ticket> getTicketsByStatus(int employee_id, int status);
+    List<Ticket> getTicketsByStatus(String status);
 	
 	boolean submitNewTicketByEmloyee(Ticket ticket);
 	
 	List<Ticket> getPendingTickets();
 	
-	List<Ticket> viewTicketHistory(int employeeID);
+	List<Ticket> viewTicketHistory();
 	
 	List<Ticket> processPendingTickets();
 

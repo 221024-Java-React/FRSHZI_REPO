@@ -1,5 +1,7 @@
 package Controller;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,8 +12,10 @@ import DAO.ITicketDAO;
 import Model.Person;
 import Model.Role;
 import Model.Ticket;
+import Model.TicketStatus;
 import Service.TicketService;
 import Service.TicketServiceFactory;
+import Utils.Helper;
 import io.javalin.http.Handler;
 
 public class TicketController {
@@ -28,49 +32,79 @@ public class TicketController {
 	}
 
 	public Handler handleSubmitTicket = (context) -> {
-		if (Person.getID() <= 0) // && Person.getRole()!= Role.EMPLOYEE
+		if (Helper.getPerson() == null || Helper.getPerson().getRole() == Role.MANAGER) {
+			System.out.println("You are not authorized to submit a ticket");
 			context.status(401);
-		else {
+		} else {
 			Ticket ticket = objectMapper.readValue(context.body(), Ticket.class);
-			System.out.println(ticket);
+			ticket.setEmployee_id(Helper.getPerson().getID());
+			LocalDateTime now = LocalDateTime.now();
+			Timestamp timestamp = Timestamp.valueOf(now);
+			ticket.setCreated_date(timestamp);
+			ticket.setStatus(TicketStatus.PENDING);
 			ticketService.submitNewTicketByEmloyee(ticket);
 			context.status(201);
+
 			context.result(objectMapper.writeValueAsString(ticket));
 		}
 	};
 
 	public Handler handleViewTicketHistory = (context) -> {
-		Map<String, Integer> body = objectMapper.readValue(context.body(), LinkedHashMap.class);
-		List<Ticket> pList = ticketService.viewTicketHistory(body.get("employee_id"));
-		context.status(200);
-		context.result(objectMapper.writeValueAsString(pList));
+		if (Helper.getPerson() == null || Helper.getPerson().getRole() == Role.MANAGER) {
+			System.out.println("You are not authorized to view tickets history");
+			context.status(401);
+		} else {
+			
+			List<Ticket> pList = ticketService.viewTicketHistory();
+			context.status(200);
+			context.result(objectMapper.writeValueAsString(pList));
+		}
 	};
 
 	public Handler handleGetTicketsByType = (context) -> {
-		Map<String, Integer> body = objectMapper.readValue(context.body(), LinkedHashMap.class);
-		List<Ticket> pList = ticketService.getTicketsBYType(body.get("employee_id"), body.get("type"));
-		context.status(200);
-		context.result(objectMapper.writeValueAsString(pList));
+		if (Helper.getPerson() == null || Helper.getPerson().getRole() == Role.MANAGER) {
+			System.out.println("You are not authorized to view tickets");
+			context.status(401);
+		} else {
+			Map<String, String> body = objectMapper.readValue(context.body(), LinkedHashMap.class);
+			List<Ticket> pList = ticketService.getTicketsBYType(body.get("type"));
+			context.status(200);
+			context.result(objectMapper.writeValueAsString(pList));
+		}
 	};
-	
+
 	public Handler handleGetTicketsByStatus = (context) -> {
-		Map<String, Integer> body = objectMapper.readValue(context.body(), LinkedHashMap.class);
-		List<Ticket> pList = ticketService.getTicketsBYStatus(body.get("employee_id"), body.get("status"));
-		context.status(200);
-		context.result(objectMapper.writeValueAsString(pList));
+		if (Helper.getPerson() == null || Helper.getPerson().getRole() == Role.MANAGER) {
+			System.out.println("You are not authorized to view tickets");
+			context.status(401);
+		} else {
+			Map<String, String> body = objectMapper.readValue(context.body(), LinkedHashMap.class);
+			List<Ticket> pList = ticketService.getTicketsBYStatus(body.get("status"));
+			context.status(200);
+			context.result(objectMapper.writeValueAsString(pList));
+		}
 	};
-	
+
 	public Handler handleViewPendingTickets = (context) -> {
-		List<Ticket> pList = ticketService.getPendingTickets();
-		context.status(200);
-		context.result(objectMapper.writeValueAsString(pList));
+		if (Helper.getPerson() == null || Helper.getPerson().getRole() == Role.EMPLOYEE) {
+			System.out.println("You are not authorized to view pending tickets");
+			context.status(401);
+		} else {
+			List<Ticket> pList = ticketService.getPendingTickets();
+			context.status(200);
+			context.result(objectMapper.writeValueAsString(pList));
+		}
 	};
-	
+
 	public Handler handleProcessPendingTickets = (context) -> {
-		
-		List<Ticket> tickets = ticketService.processPendingTickets();
-		
-		context.status(200);
-		context.result("Tickets was processed");
+		if (Helper.getPerson() == null || Helper.getPerson().getRole() == Role.EMPLOYEE) {
+			System.out.println("You are not authorized to process pending tickets");
+			context.status(401);
+		} else {
+			List<Ticket> tickets = ticketService.processPendingTickets();
+
+			context.status(200);
+			context.result("Tickets was processed");
+		}
 	};
 }

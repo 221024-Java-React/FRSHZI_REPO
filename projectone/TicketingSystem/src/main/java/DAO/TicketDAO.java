@@ -12,6 +12,7 @@ import Model.Person;
 import Model.Ticket;
 import Model.TicketStatus;
 import Model.TicketType;
+import Utils.Helper;
 import Utils.JDBCConnectionUtil;
 
 public class TicketDAO implements ITicketDAO {
@@ -21,41 +22,18 @@ public class TicketDAO implements ITicketDAO {
 	String sql = "";
 	PreparedStatement prepared;
 
-	public List<Ticket> getTicketsByType(int employee_id, int type) {
+	public List<Ticket> getTicketsByType(String type) {
 		Ticket ticket = null;
+		TicketType ticketType = TicketType.DEFAULT;
 		List<Ticket> tickets = new ArrayList<>();
 		sql = "SELECT * FROM ticket WHERE employee_id=? and type_id=?";
 		try {
 			prepared = connection.prepareStatement(sql);
-			prepared.setInt(1, employee_id);
-			prepared.setInt(2, type);
+			prepared.setInt(1, Helper.getPerson().getID());
+			prepared.setInt(2, ticketType.getValue(type));
 
 			ResultSet result = prepared.executeQuery();
-			while (result.next()) {
-				ticket = new Ticket();
-				ticket.setID(result.getInt(1));
-				ticket.setAmount(result.getDouble(2));
-				ticket.setDescription(result.getString(3));
-				ticket.setEmployee_id(result.getInt(4));
-				if (result.getInt(5) == 1)
-					ticket.setStatus(TicketStatus.PENDING);
-				else if (result.getInt(5) == 2)
-					ticket.setStatus(TicketStatus.APPROVED);
-				else
-					ticket.setStatus(TicketStatus.DENIED);
-				if (result.getInt(6) == 1)
-					ticket.setType(TicketType.TRAVEL);
-				else if (result.getInt(6) == 2)
-					ticket.setType(TicketType.LODGING);
-				else if (result.getInt(6) == 3)
-					ticket.setType(TicketType.FOOD);
-				else
-					ticket.setType(TicketType.OTHER);
-				ticket.setReceipt_image(result.getString(7));
-				ticket.setCreated_date(result.getTimestamp(8));
-				tickets.add(ticket);
-				System.out.println(ticket.toString());
-			}
+			tickets=  Helper.populateTickets(result);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -67,19 +45,13 @@ public class TicketDAO implements ITicketDAO {
 			sql = "insert into ticket (amount, description, employee_id, status_id, type_id, receipt_image, created_date) VALUES (?,?,?,?,?,?,?)";
 			prepared = connection.prepareStatement(sql);
 
-			int status = ticket.getStatus().ordinal() + 1;
-			int type = ticket.getType().ordinal() + 1;
-
-			LocalDateTime now = LocalDateTime.now();
-			Timestamp timestamp = Timestamp.valueOf(now);
-
 			prepared.setDouble(1, ticket.getAmount());
 			prepared.setString(2, ticket.getDescription());
-			prepared.setInt(3, Person.getID());
-			prepared.setInt(4, status);
-			prepared.setInt(5, type);
+			prepared.setInt(3, ticket.getEmployee_id());
+			prepared.setInt(4, ticket.getStatus().ordinal()+1);
+			prepared.setInt(5, ticket.getType().ordinal()+1);
 			prepared.setString(6, "");
-			prepared.setTimestamp(7, timestamp);
+			prepared.setTimestamp(7, ticket.getCreated_date());
 			int affectedRows = prepared.executeUpdate();
 			if (affectedRows > 0)
 				return true;
@@ -100,77 +72,30 @@ public class TicketDAO implements ITicketDAO {
 			prepared = connection.prepareStatement(sql);
 			prepared.setInt(1, 1);
 			ResultSet result = prepared.executeQuery();
-			while (result.next()) {
-				ticket = new Ticket();
-				ticket.setID(result.getInt(1));
-				ticket.setAmount(result.getDouble(2));
-				ticket.setDescription(result.getString(3));
-				ticket.setEmployee_id(result.getInt(4));
-				if (result.getInt(5) == 1)
-					ticket.setStatus(TicketStatus.PENDING);
-				else if (result.getInt(5) == 2)
-					ticket.setStatus(TicketStatus.APPROVED);
-				else
-					ticket.setStatus(TicketStatus.DENIED);
-				if (result.getInt(6) == 1)
-					ticket.setType(TicketType.TRAVEL);
-				else if (result.getInt(6) == 2)
-					ticket.setType(TicketType.LODGING);
-				else if (result.getInt(6) == 3)
-					ticket.setType(TicketType.FOOD);
-				else
-					ticket.setType(TicketType.OTHER);
-				ticket.setReceipt_image(result.getString(7));
-				ticket.setCreated_date(result.getTimestamp(8));
-				tickets.add(ticket);
-				System.out.println(ticket.toString());
-			}
+			tickets=  Helper.populateTickets(result);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return tickets;
 	}
 
-	public List<Ticket> viewTicketHistory(int employeeID) {
-		Ticket ticket = null;
+	public List<Ticket> viewTicketHistory() {
+		
 		List<Ticket> tickets = new ArrayList<>();
-		sql = "SELECT * FROM ticket WHERE employee_id=? and status_id !=?";
+		sql = "SELECT * FROM ticket WHERE employee_id=?";
 		try {
 			prepared = connection.prepareStatement(sql);
-			prepared.setInt(1, employeeID);
-			prepared.setInt(2, 1);
+			prepared.setInt(1, Helper.getPerson().getID());
 			ResultSet result = prepared.executeQuery();
-			while (result.next()) {
-				ticket = new Ticket();
-				ticket.setID(result.getInt(1));
-				ticket.setAmount(result.getDouble(2));
-				ticket.setDescription(result.getString(3));
-				ticket.setEmployee_id(result.getInt(4));
-				if (result.getInt(5) == 1)
-					ticket.setStatus(TicketStatus.PENDING);
-				else if (result.getInt(5) == 2)
-					ticket.setStatus(TicketStatus.APPROVED);
-				else
-					ticket.setStatus(TicketStatus.DENIED);
-				if (result.getInt(6) == 1)
-					ticket.setType(TicketType.TRAVEL);
-				else if (result.getInt(6) == 2)
-					ticket.setType(TicketType.LODGING);
-				else if (result.getInt(6) == 3)
-					ticket.setType(TicketType.FOOD);
-				else
-					ticket.setType(TicketType.OTHER);
-				ticket.setReceipt_image(result.getString(7));
-				ticket.setCreated_date(result.getTimestamp(8));
-				tickets.add(ticket);
-				System.out.println(ticket.toString());
-			}
+			tickets=  Helper.populateTickets(result);
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return tickets;
 	}
 
+	
 	public List<Ticket> processPendingTickets() {
 		List<Ticket> tickets = getPendingTickets();
 		for (Ticket ticket : tickets) {
@@ -198,45 +123,23 @@ public class TicketDAO implements ITicketDAO {
 	}
 
 	@Override
-	public List<Ticket> getTicketsByStatus(int employee_id, int status) {
+	public List<Ticket> getTicketsByStatus(String status) {
 		Ticket ticket = null;
 		List<Ticket> tickets = new ArrayList<>();
+		TicketStatus ticketStatus = TicketStatus.DENIED;
 		sql = "SELECT * FROM ticket WHERE employee_id=? and status_id=?";
 		try {
 			prepared = connection.prepareStatement(sql);
-			prepared.setInt(1, employee_id);
-			prepared.setInt(2, status);
+			prepared.setInt(1, Helper.getPerson().getID());
+			prepared.setInt(2, ticketStatus.getValue(status));
 
 			ResultSet result = prepared.executeQuery();
-			while (result.next()) {
-				ticket = new Ticket();
-				ticket.setID(result.getInt(1));
-				ticket.setAmount(result.getDouble(2));
-				ticket.setDescription(result.getString(3));
-				ticket.setEmployee_id(result.getInt(4));
-				if (result.getInt(5) == 1)
-					ticket.setStatus(TicketStatus.PENDING);
-				else if (result.getInt(5) == 2)
-					ticket.setStatus(TicketStatus.APPROVED);
-				else
-					ticket.setStatus(TicketStatus.DENIED);
-				if (result.getInt(6) == 1)
-					ticket.setType(TicketType.TRAVEL);
-				else if (result.getInt(6) == 2)
-					ticket.setType(TicketType.LODGING);
-				else if (result.getInt(6) == 3)
-					ticket.setType(TicketType.FOOD);
-				else
-					ticket.setType(TicketType.OTHER);
-				ticket.setReceipt_image(result.getString(7));
-				ticket.setCreated_date(result.getTimestamp(8));
-				tickets.add(ticket);
-				System.out.println(ticket.toString());
-			}
+			tickets=  Helper.populateTickets(result);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return tickets;
 	}
+
 
 }
