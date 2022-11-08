@@ -1,0 +1,48 @@
+package Service;
+
+import java.awt.Image;
+
+import DAO.IAuthDAO;
+import Model.Person;
+
+public class AuthService {
+   private IAuthDAO iAuthDAO;
+   
+   
+	public AuthService(IAuthDAO iAuthDAO) {
+	super();
+	this.iAuthDAO = iAuthDAO;
+}
+
+	
+	public boolean Register(Person person) {
+		// TODO Auto-generated method stub
+		return iAuthDAO.RegisterWithUsernameAndPassword(person);
+	}
+
+
+	public Person Login(String username, String password) {
+		// TODO Auto-generated method stub
+		return iAuthDAO.LoginWithUsernameAndPassword(username, password);
+	}
+
+	
+	public boolean EditProfile(Person user) {
+		// TODO Auto-generated method stub
+		return iAuthDAO.updateUserProfile(user);
+	}
+
+
+	public boolean UploadPicture(Image image) {
+		// TODO Auto-generated method stub
+		return iAuthDAO.uploadUserPicture(image);
+	}
+
+
+	public void changePersonRole(int person_id , int role_id) {
+		// TODO Auto-generated method stub
+		return iAuthDAO.updatePersonRole(image);
+	}
+	
+
+}

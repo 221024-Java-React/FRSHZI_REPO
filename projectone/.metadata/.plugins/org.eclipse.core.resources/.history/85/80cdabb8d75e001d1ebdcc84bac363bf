@@ -1,0 +1,67 @@
+package Service;
+
+import java.awt.Image;
+
+import DAO.IAuthDAO;
+import Exception.EmailAlreadyExistException;
+import Exception.PersonNotFoundException;
+import Model.Person;
+import Utils.Logging;
+
+public class AuthService {
+   private IAuthDAO iAuthDAO;
+   
+   
+	public AuthService(IAuthDAO iAuthDAO) {
+	super();
+	this.iAuthDAO = iAuthDAO;
+}
+
+	
+	public boolean Register(Person person) throws EmailAlreadyExistException{
+		
+		boolean result =  iAuthDAO.Register(person);
+		if(result)
+		{
+			Logging.getLogger().info("New person was registered: " + person);
+
+		}
+		return result;
+	}
+
+
+	public Person Login(String username, String password) throws PersonNotFoundException{
+		Person result =  iAuthDAO.Login(username, password);
+		if(result!= null)
+		{
+			Logging.getLogger().info("Person with email address="+result.getEmail()+" logged in");
+		}
+		return result;
+		 
+	}
+
+	
+	public boolean EditProfile(Person user) {
+		boolean result =  iAuthDAO.updateUserProfile(user);
+		if(result)
+		{
+			Logging.getLogger().info("The user profile was updated");
+
+		}
+		return 
+	}
+
+
+	public boolean UploadPicture(Image image) {
+		// TODO Auto-generated method stub
+		return iAuthDAO.uploadUserPicture(image);
+	}
+
+
+	public boolean changePersonRole(int person_id , int role_id) {
+		// TODO Auto-generated method stub
+		return iAuthDAO.updatePersonRole(person_id, role_id);
+	}
+	
+
+}

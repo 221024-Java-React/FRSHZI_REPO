@@ -1,6 +1,6 @@
 package DAO;
 
-import java.awt.Image;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,15 +14,17 @@ import Utils.JDBCConnectionUtil;
 
 public class AuthDAO implements IAuthDAO {
 	private JDBCConnectionUtil conUtil = JDBCConnectionUtil.getInstance();
-	Connection connection = conUtil.getConnection();
-	String sql = "";
-	PreparedStatement prepared;
+	private Connection connection = conUtil.getConnection();
+	private String sql = "";
+	private PreparedStatement prepared;
 
-	public Person LoginWithUsernameAndPassword(String email, String password) {
+	public Person Login(String email, String password) {
 		Person person = null;
-		Address address;
-		sql = "SELECT * FROM Person p inner join Address a on p.address_id=a.address_id  WHERE p.email=? and p.password=?";
 		try {
+
+			Address address;
+			sql = "SELECT * FROM Person p left join Address a on p.address_id=a.address_id  WHERE p.email=? and p.password=?";
+
 			prepared = connection.prepareStatement(sql);
 
 			prepared.setString(1, email);
@@ -51,51 +53,49 @@ public class AuthDAO implements IAuthDAO {
 				person.setAddress(address);
 				System.out.println(person.toString());
 			}
-		} catch (SQLException e) 
-		{
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		Helper.setPerson(person);
+	
 		return person;
 	}
 
-	public boolean RegisterWithUsernameAndPassword(Person user) {
-
+	public boolean Register(Person user) {
+		int address_id = 0;
 		try {
 			if (checkEmailIsAvailable(user.getEmail())) {
-
-				int address_id = insertAddress(user);
-
-				sql = "insert into Person(name, email, password,picture, address_id, role_id)" + "VALUES (?,?,?,?,?,?)";
+				if (user.getAddress() != null) {
+					address_id = insertAddress(user);
+					sql = "insert into Person(name, email, password,picture, role_id, address_id)"
+							+ "VALUES (?,?,?,?,?,?)";
+				} else
+					sql = "insert into Person(name, email, password,picture, role_id)" + "VALUES (?,?,?,?,?)";
 
 				prepared = connection.prepareStatement(sql);
 
-				int role = user.getRole().ordinal() + 1;
+				int role = user.getRole() != null ? user.getRole().ordinal() : 2;
 
 				prepared.setString(1, user.getName());
 				prepared.setString(2, user.getEmail());
 				prepared.setString(3, user.getPassword());
 				prepared.setString(4, user.getPicture());
-				prepared.setInt(5, address_id);
-				prepared.setInt(6, role);
-
+				prepared.setInt(5, role);
+				if (address_id > 0)
+					prepared.setInt(6, address_id);
 				prepared.execute();
 				return false;
-			} else
-			{
+			} else {
 				System.out.println("email already exist");
-			return true;
+				return true;
 			}
-			} catch (SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
 		return false;
 	}
 
-	
-
-	public boolean uploadUserPicture(Image image) {
+	public boolean uploadUserPicture(File file) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -124,7 +124,7 @@ public class AuthDAO implements IAuthDAO {
 		return address_id;
 	}
 
-	public boolean checkEmailIsAvailable(String email) throws SQLException {
+	private boolean checkEmailIsAvailable(String email) throws SQLException {
 		sql = "select * from Person where email='" + email + "'";
 		prepared = connection.prepareStatement(sql);
 		ResultSet result = prepared.executeQuery();
@@ -135,8 +135,54 @@ public class AuthDAO implements IAuthDAO {
 
 	@Override
 	public boolean updateUserProfile(Person user) {
-		// TODO Auto-generated method stub
-		return false;
+		int address_id = 0;
+		try {
+			if (user.getAddress() != null) {
+				System.out.println("address is not null");
+				address_id = insertAddress(user);
+				System.out.println("the address id is ="+address_id);
+			}
+			if (address_id > 0)
+				sql = "update person SET name = ? , password=?, picture=?, address_id=?  WHERE person_id = ?";
+			else
+				sql = "update person SET name = ? , password=?, picture=?  WHERE person_id = ?";
+
+			prepared = connection.prepareStatement(sql);
+			prepared.setString(1, user.getName());
+			prepared.setString(2, user.getPassword());
+			prepared.setString(3, user.getPicture());
+			if (address_id > 0) {
+				prepared.setInt(4, address_id);
+				prepared.setInt(5, Helper.getPerson().getID());
+			} else
+				prepared.setInt(5, Helper.getPerson().getID());
+
+			int affectedRows = prepared.executeUpdate();
+			if (affectedRows > 0)
+				return true;
+			return false;
+		} catch (SQLException e1) {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean updatePersonRole(int person_id, int role_id) {
+		try {
+			sql = "update person SET role_id = ? WHERE person_id = ?";
+
+			prepared = connection.prepareStatement(sql);
+
+			prepared.setInt(1, role_id);
+			prepared.setInt(2, person_id);
+			int affectedRows = prepared.executeUpdate();
+			if (affectedRows > 0)
+				return true;
+			return false;
+		} catch (SQLException e1) {
+			return false;
+		}
+
 	}
 
 }

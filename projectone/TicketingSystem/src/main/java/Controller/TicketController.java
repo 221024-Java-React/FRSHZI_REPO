@@ -9,6 +9,8 @@ import java.util.Map;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import DAO.ITicketDAO;
+import Exception.EmptyDescriptionException;
+import Exception.InvalidAmountException;
 import Model.Person;
 import Model.Role;
 import Model.Ticket;
@@ -35,13 +37,23 @@ public class TicketController {
 		if (Helper.getPerson() == null || Helper.getPerson().getRole() == Role.MANAGER) {
 			System.out.println("You are not authorized to submit a ticket");
 			context.status(401);
-		} else {
+		}
+
+		else {
 			Ticket ticket = objectMapper.readValue(context.body(), Ticket.class);
+			if (ticket.getAmount() <= 0) {
+				context.status(400);
+				throw new InvalidAmountException();
+
+			} else if (ticket.getDescription().isEmpty()) {
+				context.status(400);
+				throw new EmptyDescriptionException();
+
+			}
 			ticket.setEmployee_id(Helper.getPerson().getID());
 			LocalDateTime now = LocalDateTime.now();
 			Timestamp timestamp = Timestamp.valueOf(now);
 			ticket.setCreated_date(timestamp);
-			ticket.setStatus(TicketStatus.PENDING);
 			ticketService.submitNewTicketByEmloyee(ticket);
 			context.status(201);
 
@@ -54,7 +66,7 @@ public class TicketController {
 			System.out.println("You are not authorized to view tickets history");
 			context.status(401);
 		} else {
-			
+
 			List<Ticket> pList = ticketService.viewTicketHistory();
 			context.status(200);
 			context.result(objectMapper.writeValueAsString(pList));
@@ -107,4 +119,20 @@ public class TicketController {
 			context.result("Tickets was processed");
 		}
 	};
+
+	public Handler handleProcessPendingTicket = (context) -> {
+		if (Helper.getPerson() == null || Helper.getPerson().getRole() == Role.EMPLOYEE) {
+			System.out.println("You are not authorized to process pending ticket");
+			context.status(401);
+		} else {
+			Map<String, Integer> body = objectMapper.readValue(context.body(), LinkedHashMap.class);
+			ticketService.processPendingTicket(body.get("ticket_id"), body.get("status"));
+
+			context.status(200);
+			if(body.get("status")==2) 
+				context.result("Ticket "+body.get("ticket_id") +" was approved");
+				else context.result("Ticket "+body.get("ticket_id") +" was denied");
+		}
+	};
+
 }

@@ -17,5 +17,8 @@ public interface ITicketDAO {
 	List<Ticket> viewTicketHistory();
 	
 	List<Ticket> processPendingTickets();
+	
+	boolean processPendingTicket(int ticket_id, int status_id);
+
 
 }

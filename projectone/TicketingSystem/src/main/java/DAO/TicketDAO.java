@@ -23,17 +23,18 @@ public class TicketDAO implements ITicketDAO {
 	PreparedStatement prepared;
 
 	public List<Ticket> getTicketsByType(String type) {
-		Ticket ticket = null;
-		TicketType ticketType = TicketType.DEFAULT;
 		List<Ticket> tickets = new ArrayList<>();
-		sql = "SELECT * FROM ticket WHERE employee_id=? and type_id=?";
 		try {
+			Ticket ticket = null;
+			TicketType ticketType = TicketType.DEFAULT;
+			sql = "SELECT * FROM ticket WHERE employee_id=? and type_id=?";
+
 			prepared = connection.prepareStatement(sql);
 			prepared.setInt(1, Helper.getPerson().getID());
 			prepared.setInt(2, ticketType.getValue(type));
 
 			ResultSet result = prepared.executeQuery();
-			tickets=  Helper.populateTickets(result);
+			tickets = Helper.populateTickets(result);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -42,16 +43,15 @@ public class TicketDAO implements ITicketDAO {
 
 	public boolean submitNewTicketByEmloyee(Ticket ticket) {
 		try {
-			sql = "insert into ticket (amount, description, employee_id, status_id, type_id, receipt_image, created_date) VALUES (?,?,?,?,?,?,?)";
+			sql = "insert into ticket (amount, description, employee_id, type_id, receipt_image, created_date) VALUES (?,?,?,?,?,?)";
 			prepared = connection.prepareStatement(sql);
 
 			prepared.setDouble(1, ticket.getAmount());
 			prepared.setString(2, ticket.getDescription());
 			prepared.setInt(3, ticket.getEmployee_id());
-			prepared.setInt(4, ticket.getStatus().ordinal()+1);
-			prepared.setInt(5, ticket.getType().ordinal()+1);
-			prepared.setString(6, "");
-			prepared.setTimestamp(7, ticket.getCreated_date());
+			prepared.setInt(4, ticket.getType().ordinal());
+			prepared.setString(5, "");
+			prepared.setTimestamp(6, ticket.getCreated_date());
 			int affectedRows = prepared.executeUpdate();
 			if (affectedRows > 0)
 				return true;
@@ -64,15 +64,16 @@ public class TicketDAO implements ITicketDAO {
 	}
 
 	public List<Ticket> getPendingTickets() {
-
-		Ticket ticket = null;
 		List<Ticket> tickets = new ArrayList<>();
-		sql = "SELECT * FROM ticket WHERE status_id=?";
 		try {
+			Ticket ticket = null;
+
+			sql = "select * from ticket WHERE status_id=? order by created_date desc";
+
 			prepared = connection.prepareStatement(sql);
 			prepared.setInt(1, 1);
 			ResultSet result = prepared.executeQuery();
-			tickets=  Helper.populateTickets(result);
+			tickets = Helper.populateTickets(result);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -80,30 +81,29 @@ public class TicketDAO implements ITicketDAO {
 	}
 
 	public List<Ticket> viewTicketHistory() {
-		
 		List<Ticket> tickets = new ArrayList<>();
-		sql = "SELECT * FROM ticket WHERE employee_id=?";
 		try {
+
+			sql = "SELECT * FROM ticket WHERE employee_id=?";
+
 			prepared = connection.prepareStatement(sql);
 			prepared.setInt(1, Helper.getPerson().getID());
 			ResultSet result = prepared.executeQuery();
-			tickets=  Helper.populateTickets(result);
-			
+			tickets = Helper.populateTickets(result);
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return tickets;
 	}
 
-	
 	public List<Ticket> processPendingTickets() {
 		List<Ticket> tickets = getPendingTickets();
 		for (Ticket ticket : tickets) {
-			if (ticket.getAmount() > 0 && !ticket.getDescription().isEmpty()) 
-			{
+			if (ticket.getAmount() > 0 && !ticket.getDescription().isEmpty()) {
 				updateTickets(ticket.getID(), 2);
-			}
-			else updateTickets(ticket.getID(),3);
+			} else
+				updateTickets(ticket.getID(), 3);
 
 		}
 		return null;
@@ -111,12 +111,13 @@ public class TicketDAO implements ITicketDAO {
 
 	private void updateTickets(int ticket_id, int status_id) {
 		try {
-			sql = "update ticket SET status_id = ? WHERE ticket_id = ?";
+			sql = "update ticket SET status_id = ? WHERE status_id =? and ticket_id = ?";
 
 			PreparedStatement prepared = connection.prepareStatement(sql);
 
 			prepared.setInt(1, status_id);
-			prepared.setInt(2, ticket_id);
+			prepared.setInt(2, 1);
+			prepared.setInt(3, ticket_id);
 			prepared.execute();
 		} catch (SQLException e1) {
 		}
@@ -124,22 +125,45 @@ public class TicketDAO implements ITicketDAO {
 
 	@Override
 	public List<Ticket> getTicketsByStatus(String status) {
-		Ticket ticket = null;
 		List<Ticket> tickets = new ArrayList<>();
-		TicketStatus ticketStatus = TicketStatus.DENIED;
-		sql = "SELECT * FROM ticket WHERE employee_id=? and status_id=?";
 		try {
+			Ticket ticket = null;
+
+			TicketStatus ticketStatus = TicketStatus.DENIED;
+			sql = "SELECT * FROM ticket WHERE employee_id=? and status_id=?";
+
 			prepared = connection.prepareStatement(sql);
 			prepared.setInt(1, Helper.getPerson().getID());
 			prepared.setInt(2, ticketStatus.getValue(status));
 
 			ResultSet result = prepared.executeQuery();
-			tickets=  Helper.populateTickets(result);
+			tickets = Helper.populateTickets(result);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return tickets;
 	}
 
+	@Override
+	public boolean processPendingTicket(int ticket_id, int status_id) {
+
+		try {
+			sql = "update ticket SET status_id = ? where status_id=? and ticket_id = ?";
+
+			PreparedStatement prepared = connection.prepareStatement(sql);
+
+			prepared.setInt(1, status_id);
+			prepared.setInt(2, 1);
+			prepared.setInt(3, ticket_id);
+			int affectedRows = prepared.executeUpdate();
+			if (affectedRows > 0)
+				return true;
+			return false;
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+			return false;
+		}
+
+	}
 
 }

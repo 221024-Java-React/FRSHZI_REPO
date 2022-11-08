@@ -1,0 +1,51 @@
+package Service;
+
+import java.util.List;
+
+import DAO.ITicketDAO;
+import Model.Ticket;
+
+public class TicketService {
+	ITicketDAO iTicketDAO;
+
+	public TicketService(ITicketDAO iTicketDAO) {
+		super();
+		this.iTicketDAO = iTicketDAO;
+	}
+
+	public List<Ticket> getTicketsBYType(String type) {
+		// TODO Auto-generated method stub
+		return iTicketDAO.getTicketsByType(type);
+	}
+
+	public List<Ticket> getTicketsBYStatus(String status) {
+		// TODO Auto-generated method stub
+		return iTicketDAO.getTicketsByStatus(status);
+	}
+
+	public boolean submitNewTicketByEmloyee(Ticket ticket) {
+		// TODO Auto-generated method stub
+		return iTicketDAO.submitNewTicketByEmloyee(ticket);
+	}
+
+	public List<Ticket> getPendingTickets() {
+		// TODO Auto-generated method stub
+		return iTicketDAO.getPendingTickets();
+	}
+
+	public List<Ticket> viewTicketHistory() {
+		// TODO Auto-generated method stub
+		return iTicketDAO.viewTicketHistory();
+	}
+
+	public List<Ticket> processPendingTickets() {
+		// TODO Auto-generated method stub
+		return iTicketDAO.processPendingTickets();
+	}
+	
+	public Ticket processPendingTicket(int ticket_id, int status_id) {
+		// TODO Auto-generated method stub
+		return iTicketDAO.processPendingTicket(ticket_id, status_id);
+	}
+
+}
