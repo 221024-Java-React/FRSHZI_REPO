@@ -1,24 +1,28 @@
 package Controller;
 
+import java.io.File;
+import java.io.InputStream;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.io.FileUtils;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import DAO.ITicketDAO;
 import Exception.EmptyDescriptionException;
 import Exception.InvalidAmountException;
-import Model.Person;
 import Model.Role;
 import Model.Ticket;
 import Model.TicketStatus;
+import Model.TicketType;
 import Service.TicketService;
 import Service.TicketServiceFactory;
 import Utils.Helper;
 import io.javalin.http.Handler;
+import io.javalin.http.UploadedFile;
 
 public class TicketController {
 
@@ -34,49 +38,70 @@ public class TicketController {
 	}
 
 	public Handler handleSubmitTicket = (context) -> {
+		// UploadedFile uploadedFile=null;
 		if (Helper.getPerson() == null || Helper.getPerson().getRole() == Role.MANAGER) {
-			System.out.println("You are not authorized to submit a ticket");
 			context.status(401);
-		}
+			context.result("Only employees are authorized to submit new tickets");
+		} else {
 
-		else {
-			Ticket ticket = objectMapper.readValue(context.body(), Ticket.class);
-			if (ticket.getAmount() <= 0) {
+			double amount = Double.parseDouble(context.formParam("amount"));
+			String description = context.formParam("description");
+			int type = Integer.parseInt(context.formParam("type"));
+			UploadedFile uploadedFile = context.uploadedFile("receiptFile");
+
+			if (amount <= 0) {
 				context.status(400);
+				context.result("Please enter a valid amount");
 				throw new InvalidAmountException();
 
-			} else if (ticket.getDescription().isEmpty()) {
+			} else if (description.trim().isEmpty() || description ==null ){
 				context.status(400);
+				context.result("Please enter a valid description");
 				throw new EmptyDescriptionException();
 
-			}
-			ticket.setEmployee_id(Helper.getPerson().getID());
-			LocalDateTime now = LocalDateTime.now();
-			Timestamp timestamp = Timestamp.valueOf(now);
-			ticket.setCreated_date(timestamp);
-			ticketService.submitNewTicketByEmloyee(ticket);
-			context.status(201);
+			} else {
 
-			context.result(objectMapper.writeValueAsString(ticket));
+			}
+			if (uploadedFile != null) {
+				try (InputStream inputStream = uploadedFile.content()) {
+					File targetFile = new File("src/main/resources/receipts/" + uploadedFile.filename());
+					FileUtils.copyInputStreamToFile(inputStream, targetFile);
+					String path = targetFile.getPath();
+					Ticket ticket = Helper.fillTicketWithData(amount,description,type);
+					ticket.setReceipt_image(path);
+					ticketService.submitNewTicketByEmloyee(ticket);
+					context.status(201);
+					context.result(objectMapper.writeValueAsString(ticket));
+				}
+			} else {
+
+				Ticket ticket = Helper.fillTicketWithData(amount,description,type);
+				ticketService.submitNewTicketByEmloyee(ticket);
+				context.status(201);
+
+				context.result(objectMapper.writeValueAsString(ticket));
+
+			}
 		}
 	};
-
 	public Handler handleViewTicketHistory = (context) -> {
 		if (Helper.getPerson() == null || Helper.getPerson().getRole() == Role.MANAGER) {
-			System.out.println("You are not authorized to view tickets history");
 			context.status(401);
+			context.result("Only employees are authorized to view their tickets history");
 		} else {
 
 			List<Ticket> pList = ticketService.viewTicketHistory();
 			context.status(200);
 			context.result(objectMapper.writeValueAsString(pList));
 		}
+
 	};
 
 	public Handler handleGetTicketsByType = (context) -> {
 		if (Helper.getPerson() == null || Helper.getPerson().getRole() == Role.MANAGER) {
-			System.out.println("You are not authorized to view tickets");
+
 			context.status(401);
+			context.result("Only employees are authorized to view their tickets by type");
 		} else {
 			Map<String, String> body = objectMapper.readValue(context.body(), LinkedHashMap.class);
 			List<Ticket> pList = ticketService.getTicketsBYType(body.get("type"));
@@ -87,8 +112,8 @@ public class TicketController {
 
 	public Handler handleGetTicketsByStatus = (context) -> {
 		if (Helper.getPerson() == null || Helper.getPerson().getRole() == Role.MANAGER) {
-			System.out.println("You are not authorized to view tickets");
 			context.status(401);
+			context.result("Only employees are authorized to view their tickets by status");
 		} else {
 			Map<String, String> body = objectMapper.readValue(context.body(), LinkedHashMap.class);
 			List<Ticket> pList = ticketService.getTicketsBYStatus(body.get("status"));
@@ -99,8 +124,8 @@ public class TicketController {
 
 	public Handler handleViewPendingTickets = (context) -> {
 		if (Helper.getPerson() == null || Helper.getPerson().getRole() == Role.EMPLOYEE) {
-			System.out.println("You are not authorized to view pending tickets");
 			context.status(401);
+			context.result("Only managers can view all pending tickets");
 		} else {
 			List<Ticket> pList = ticketService.getPendingTickets();
 			context.status(200);
@@ -110,29 +135,36 @@ public class TicketController {
 
 	public Handler handleProcessPendingTickets = (context) -> {
 		if (Helper.getPerson() == null || Helper.getPerson().getRole() == Role.EMPLOYEE) {
-			System.out.println("You are not authorized to process pending tickets");
 			context.status(401);
+			context.result("Only managers can process pending tickets");
 		} else {
 			List<Ticket> tickets = ticketService.processPendingTickets();
 
 			context.status(200);
-			context.result("Tickets was processed");
+			context.result("Tickets were processed");
 		}
 	};
 
 	public Handler handleProcessPendingTicket = (context) -> {
 		if (Helper.getPerson() == null || Helper.getPerson().getRole() == Role.EMPLOYEE) {
-			System.out.println("You are not authorized to process pending ticket");
 			context.status(401);
+			context.result("Only managers can process pending ticket");
 		} else {
 			Map<String, Integer> body = objectMapper.readValue(context.body(), LinkedHashMap.class);
-			ticketService.processPendingTicket(body.get("ticket_id"), body.get("status"));
-
+			boolean updated = ticketService.processPendingTicket(body.get("ticket_id"), body.get("status"));
+			if(updated)
+			{
 			context.status(200);
-			if(body.get("status")==2) 
-				context.result("Ticket "+body.get("ticket_id") +" was approved");
-				else context.result("Ticket "+body.get("ticket_id") +" was denied");
-		}
+			if (body.get("status") == 2)
+				context.result("Ticket " + body.get("ticket_id") + " was approved");
+			else
+				context.result("Ticket " + body.get("ticket_id") + " was denied");
+			}else 
+			{
+				context.status(403);
+				context.result("Ticket " + body.get("ticket_id") + " already processed");
+			}
+			}
 	};
 
 }

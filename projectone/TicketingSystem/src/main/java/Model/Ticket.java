@@ -1,7 +1,6 @@
 package Model;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
@@ -98,6 +97,7 @@ public class Ticket implements Serializable {
 	public void setCreated_date(Timestamp created_date) {
 		this.created_date = created_date;
 	}
+	
 
 	@Override
 	public String toString() {
@@ -106,4 +106,6 @@ public class Ticket implements Serializable {
 				+ ", created_date=" + created_date.toLocalDateTime() + "]";
 	}
 
+	
+	
 }

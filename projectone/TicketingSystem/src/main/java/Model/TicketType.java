@@ -25,5 +25,14 @@ public enum TicketType {
 	    	if(v.equalsIgnoreCase("other")) return 4;
 			return 5;
 	    }
+	    
+	    public TicketType getValue(int v)
+	    {
+	    	if(v==1) return TicketType.TRAVEL;
+	    	if(v==2) return TicketType.LODGING;
+	    	if(v==3) return TicketType.FOOD;
+	    	if(v==4) return TicketType.OTHER;
+			return TicketType.DEFAULT;
+	    }
 	   
 }
