@@ -3,6 +3,8 @@ package Service;
 import java.awt.Image;
 import java.io.File;
 import java.time.LocalDateTime;
+import java.util.List;
+
 import DAO.IAuthDAO;
 import Exception.EmailAlreadyExistException;
 import Exception.PersonNotFoundException;
@@ -30,6 +32,12 @@ public class AuthService {
 		}
 		return result;
 	}
+	
+public List<Person> getAllUsers(){
+		
+		List<Person> persons =  iAuthDAO.getAllUsers();
+		return persons;
+	}
 
 
 	public Person Login(String username, String password) throws PersonNotFoundException{
@@ -55,8 +63,8 @@ public class AuthService {
 	}
 
 
-	public boolean UploadPicture(File file) {
-		boolean result =  iAuthDAO.uploadUserPicture(file);
+	public boolean UploadPicture(String path) {
+		boolean result =  iAuthDAO.uploadUserPicture(path);
 		if(result)
 		{
 			Logging.getLogger().info("The user with email "+Helper.getPerson().getEmail()+" uploaded a new picture on"+LocalDateTime.now());
@@ -76,6 +84,16 @@ public class AuthService {
 		}
 	return result;
 	}
-	
+
+
+	public boolean deleteUserByID(int user_id) {
+		boolean result =  iAuthDAO.deleteUserById(user_id);
+		if(result)
+		{
+			Logging.getLogger().info("The user with id "+user_id +" was deleted by "+user_id);
+            return result;
+		}
+	return result;
+	}
 
 }

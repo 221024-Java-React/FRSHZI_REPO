@@ -49,10 +49,11 @@ public class TicketDAO implements ITicketDAO {
 			prepared.setDouble(1, ticket.getAmount());
 			prepared.setString(2, ticket.getDescription());
 			prepared.setInt(3, ticket.getEmployee_id());
-			prepared.setInt(4, ticket.getType().ordinal());
-			prepared.setString(5, "");
+			prepared.setInt(4, ticket.getType().ordinal() + 1);
+			prepared.setString(5, ticket.getReceipt_image());
 			prepared.setTimestamp(6, ticket.getCreated_date());
 			int affectedRows = prepared.executeUpdate();
+
 			if (affectedRows > 0)
 				return true;
 			return false;

@@ -1,3 +1,6 @@
+import java.awt.Desktop;
+import java.io.File;
+
 import Controller.AuthController;
 import Controller.TicketController;
 import DAO.AuthDAO;
@@ -12,6 +15,7 @@ public class TicketingSystemClass {
 	
 	public static void main (String [] args)
 	{
+		
 		IAuthDAO iAuthDAO = new AuthDAO();
 		ITicketDAO iTicketDAO = new TicketDAO();
 		
@@ -26,21 +30,26 @@ public class TicketingSystemClass {
 		    });                                             
 		});
 		
+		app.get("/users", authController.handleGetAllUsers);
+		app.get("/user/logout", authController.handleLogout);
+		app.delete("/user", authController.handleDeleteUserById);
 		app.post("/user/register", authController.handleRegister);
 		app.get("/user/login", authController.handleLogin);
-     	app.put("/user/editProfile", authController.handleEditProfile);
- 	//	app.put("/user/uploadPicture", authController.handleUploadPicture);
-     //	app.put("/ticket/uploadReceipt", AuthController.handleUploadReceipt);
-		app.put("/user/ChangeRoleByManager", authController.handleChangeRole);
-		app.get("/ticket/getTicketsbyType", ticketController.handleGetTicketsByType);
-		app.get("/ticket/getTicketsbyStatus", ticketController.handleGetTicketsByStatus);
-		app.get("/ticket/ViewPendingTickets", ticketController.handleViewPendingTickets);
-		app.post("ticket/submitTicket", ticketController.handleSubmitTicket);
-		app.post("ticket/ProcessPendingTicket", ticketController.handleProcessPendingTicket);
-		app.get("ticket/ProcessPendingTickets", ticketController.handleProcessPendingTickets);
-		app.get("/ticket/ViewTicketHistory", ticketController.handleViewTicketHistory);
+     	app.put("/user/profile-management", authController.handleEditProfile);
+ 	 	app.put("/user/profile-picture", authController.handleUploadPicture);
+		app.put("/user/role-management", authController.handleChangeRole);
+		app.get("/ticket/ticket-type", ticketController.handleGetTicketsByType);
+		app.get("/ticket/ticket-status", ticketController.handleGetTicketsByStatus);
+		app.get("/ticket/tickets", ticketController.handleViewPendingTickets);
+		app.post("ticket/ticket-new", ticketController.handleSubmitTicket);
+		app.post("ticket/ticket-management", ticketController.handleProcessPendingTicket);
+		app.get("ticket/tickets-management", ticketController.handleProcessPendingTickets);
+		app.get("/ticket/ticket-history", ticketController.handleViewTicketHistory);
 		
 		app.start(8000);
 		
+	
 	}
+	
+	
 }

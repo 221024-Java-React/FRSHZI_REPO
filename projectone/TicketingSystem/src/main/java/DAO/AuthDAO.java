@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import Model.Address;
 import Model.Person;
@@ -56,7 +58,7 @@ public class AuthDAO implements IAuthDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	
+
 		return person;
 	}
 
@@ -95,14 +97,21 @@ public class AuthDAO implements IAuthDAO {
 		return false;
 	}
 
-	public boolean uploadUserPicture(File file) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	public boolean uploadUserPicture(String path) {
+		try {
+			sql = "update person SET picture = ? WHERE person_id = ?";
 
-	public boolean ManagerChangeRole(Person user) {
-		// TODO Auto-generated method stub
-		return false;
+			prepared = connection.prepareStatement(sql);
+
+			prepared.setString(1, path);
+			prepared.setInt(2, Helper.getPerson().getID());
+			int affectedRows = prepared.executeUpdate();
+			if (affectedRows > 0)
+				return true;
+			return false;
+		} catch (SQLException e1) {
+			return false;
+		}
 	}
 
 	private int insertAddress(Person user) throws SQLException {
@@ -140,7 +149,7 @@ public class AuthDAO implements IAuthDAO {
 			if (user.getAddress() != null) {
 				System.out.println("address is not null");
 				address_id = insertAddress(user);
-				System.out.println("the address id is ="+address_id);
+				System.out.println("the address id is =" + address_id);
 			}
 			if (address_id > 0)
 				sql = "update person SET name = ? , password=?, picture=?, address_id=?  WHERE person_id = ?";
@@ -185,4 +194,34 @@ public class AuthDAO implements IAuthDAO {
 
 	}
 
+	@Override
+	public List<Person> getAllUsers() {
+		List<Person> persons = new ArrayList<>();
+		try {
+			sql = "select * from person p left join address a on a.address_id = p.address_id";
+
+			prepared = connection.prepareStatement(sql);
+			ResultSet result = prepared.executeQuery();
+			persons = Helper.populatePersons(result);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return persons;
+	}
+
+	@Override
+	public boolean deleteUserById(int user_id) {
+		try {
+			sql = "delete from person where person_id="+user_id;
+
+			prepared = connection.prepareStatement(sql);
+			int affectedRows = prepared.executeUpdate();
+			if(affectedRows>0)return true;
+			return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+
+}
 }

@@ -7,7 +7,6 @@ public class Person implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private  int ID;
 	private String name;
-	private String username;
 	private String password;
 	private String email;
 	private Address address;
@@ -18,11 +17,10 @@ public class Person implements Serializable{
 		super();
 	}
 	
-	public Person(int iD, String name, String username, String password, String email, Address address, String picture, Role role) {
+	public Person(int iD, String name, String password, String email, Address address, String picture, Role role) {
 		super();
 		ID = iD;
 		this.name = name;
-		this.username = username;
 		this.password = password;
 		this.email = email;
 		this.address = address;
@@ -42,12 +40,7 @@ public class Person implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getUsername() {
-		return username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
+	
 	public String getPassword() {
 		return password;
 	}
@@ -83,7 +76,7 @@ public class Person implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Person [ID=" + ID + ", name=" + name + ", username=" + username + ", email=" + email + ", address="
+		return "Person [ID=" + ID + ", name=" + name + ", email=" + email + ", address="
 				+ address + ", picture=" + picture + ", role=" + role + "]";
 	}
 
