@@ -1,6 +1,5 @@
 package DAO;
 
-import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import Exception.EmailAlreadyExistException;
 import Model.Address;
 import Model.Person;
 import Model.Role;
@@ -33,6 +33,7 @@ public class AuthDAO implements IAuthDAO {
 			prepared.setString(2, password);
 
 			ResultSet result = prepared.executeQuery();
+			
 
 			while (result.next()) {
 				person = new Person();
@@ -62,9 +63,8 @@ public class AuthDAO implements IAuthDAO {
 		return person;
 	}
 
-	public boolean Register(Person user) {
+	public boolean Register(Person user) throws SQLException {
 		int address_id = 0;
-		try {
 			if (checkEmailIsAvailable(user.getEmail())) {
 				if (user.getAddress() != null) {
 					address_id = insertAddress(user);
@@ -85,16 +85,12 @@ public class AuthDAO implements IAuthDAO {
 				if (address_id > 0)
 					prepared.setInt(6, address_id);
 				prepared.execute();
-				return false;
+				return true;
 			} else {
 				System.out.println("email already exist");
-				return true;
+				return false;
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 
-		return false;
 	}
 
 	public boolean uploadUserPicture(String path) {

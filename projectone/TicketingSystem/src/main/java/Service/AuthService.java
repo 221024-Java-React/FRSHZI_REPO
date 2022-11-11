@@ -1,7 +1,6 @@
 package Service;
 
-import java.awt.Image;
-import java.io.File;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,15 +21,19 @@ public class AuthService {
 }
 
 	
-	public boolean Register(Person person) throws EmailAlreadyExistException{
-		
-		boolean result =  iAuthDAO.Register(person);
-		if(result)
-		{
-			Logging.getLogger().info(LocalDateTime.now()+" New person was registered: " + person);
-
+	public boolean Register(Person person) {
+		try {
+			boolean result = iAuthDAO.Register(person);
+			if(result)
+			{
+				Logging.getLogger().info(LocalDateTime.now()+" New person was registered: " + person);
+				return result;
+			}
+			return result;
+		} catch (SQLException e) {
+			Logging.getLogger().warn("User with email " + person.getEmail() + " tried to register a second time");
+			throw new EmailAlreadyExistException();
 		}
-		return result;
 	}
 	
 public List<Person> getAllUsers(){
@@ -40,13 +43,14 @@ public List<Person> getAllUsers(){
 	}
 
 
-	public Person Login(String username, String password) throws PersonNotFoundException{
+	public Person Login(String username, String password){
 		Person result =  iAuthDAO.Login(username, password);
 		if(result!= null)
 		{
 			Logging.getLogger().info("Person with email address="+result.getEmail()+" was logged in on "+LocalDateTime.now());
-		}
 		return result;
+		}
+		else throw new PersonNotFoundException();
 		 
 	}
 

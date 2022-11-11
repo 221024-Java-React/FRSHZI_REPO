@@ -2,6 +2,7 @@ package DAO;
 
 import java.awt.Image;
 import java.io.File;
+import java.sql.SQLException;
 import java.util.List;
 
 import Model.Person;
@@ -12,7 +13,7 @@ public interface IAuthDAO {
 	
 	List<Person> getAllUsers();
 	
-	boolean Register(Person person);
+	boolean Register(Person person) throws SQLException;
 	
 	boolean updateUserProfile(Person user);
 	

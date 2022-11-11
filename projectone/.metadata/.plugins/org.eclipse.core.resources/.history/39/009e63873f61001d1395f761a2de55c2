@@ -1,0 +1,22 @@
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+
+import DAO.IAuthDAO;
+import Service.AuthService;
+
+@RunWith(MockitoJUnitRunner.class)
+public class AuthServiceTests {
+
+	AuthService authService;
+	
+	@Mock 
+	IAuthDAO iAuthDAO;
+	
+	@Before
+	setAuthService()
+	{
+		authServie = new AuthService(iAuthDAO);
+	}
+	
+}

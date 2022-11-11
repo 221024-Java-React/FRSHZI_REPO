@@ -38,23 +38,27 @@ public class TicketController {
 	}
 
 	public Handler handleSubmitTicket = (context) -> {
-		// UploadedFile uploadedFile=null;
+		Double amount=0d;
 		if (Helper.getPerson() == null || Helper.getPerson().getRole() == Role.MANAGER) {
 			context.status(401);
 			context.result("Only employees are authorized to submit new tickets");
 		} else {
 
-			double amount = Double.parseDouble(context.formParam("amount"));
+			try {
+				 amount = Double.parseDouble(context.formParam("amount"));
+			} catch (NumberFormatException e1) {
+				throw new InvalidAmountException();
+			}
 			String description = context.formParam("description");
 			int type = Integer.parseInt(context.formParam("type"));
 			UploadedFile uploadedFile = context.uploadedFile("receiptFile");
 
-			if (amount <= 0) {
+			if (amount <= 0 || amount == null) {
 				context.status(400);
 				context.result("Please enter a valid amount");
 				throw new InvalidAmountException();
 
-			} else if (description.trim().isEmpty() || description ==null ){
+			} else if (description.trim().isEmpty() || description == null) {
 				context.status(400);
 				context.result("Please enter a valid description");
 				throw new EmptyDescriptionException();
@@ -67,7 +71,7 @@ public class TicketController {
 					File targetFile = new File("src/main/resources/receipts/" + uploadedFile.filename());
 					FileUtils.copyInputStreamToFile(inputStream, targetFile);
 					String path = targetFile.getPath();
-					Ticket ticket = Helper.fillTicketWithData(amount,description,type);
+					Ticket ticket = Helper.fillTicketWithData(amount, description, type);
 					ticket.setReceipt_image(path);
 					ticketService.submitNewTicketByEmloyee(ticket);
 					context.status(201);
@@ -75,7 +79,7 @@ public class TicketController {
 				}
 			} else {
 
-				Ticket ticket = Helper.fillTicketWithData(amount,description,type);
+				Ticket ticket = Helper.fillTicketWithData(amount, description, type);
 				ticketService.submitNewTicketByEmloyee(ticket);
 				context.status(201);
 
@@ -152,19 +156,17 @@ public class TicketController {
 		} else {
 			Map<String, Integer> body = objectMapper.readValue(context.body(), LinkedHashMap.class);
 			boolean updated = ticketService.processPendingTicket(body.get("ticket_id"), body.get("status"));
-			if(updated)
-			{
-			context.status(200);
-			if (body.get("status") == 2)
-				context.result("Ticket " + body.get("ticket_id") + " was approved");
-			else
-				context.result("Ticket " + body.get("ticket_id") + " was denied");
-			}else 
-			{
+			if (updated) {
+				context.status(200);
+				if (body.get("status") == 2)
+					context.result("Ticket " + body.get("ticket_id") + " was approved");
+				else
+					context.result("Ticket " + body.get("ticket_id") + " was denied");
+			} else {
 				context.status(403);
 				context.result("Ticket " + body.get("ticket_id") + " already processed");
 			}
-			}
+		}
 	};
 
 }

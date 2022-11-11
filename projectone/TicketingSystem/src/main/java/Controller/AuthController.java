@@ -40,7 +40,7 @@ public class AuthController {
 		Person person = objectMapper.readValue(context.body(), Person.class);
 		System.out.println(person);
 		boolean emailExist = authService.Register(person);
-		if (emailExist) {
+		if (!emailExist) {
 			context.status(403);
 			context.result("This email is already registered, please use another email");
 		} else {
@@ -57,7 +57,7 @@ public class AuthController {
 			context.status(404);
 		else {
 			Helper.setPerson(login);
-			context.req().getSession().setAttribute("user", login.getID());
+			context.req().setAttribute("user_id", login.getID());
 			context.status(200);
 			context.result(objectMapper.writeValueAsString(login));
 		}
@@ -121,7 +121,7 @@ public class AuthController {
 	};
 
 	public Handler handleDeleteUserById = (context) -> {
-		if (Helper.getPerson() == null || Helper.getPerson().getRole() == Role.EMPLOYEE) {
+		if (Helper.getPerson() == null) {
 			context.status(401);
 			context.result("You are not autorized to delete a user");
 

@@ -1,0 +1,36 @@
+import org.junit.Before;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+
+import DAO.IAuthDAO;
+import Service.AuthService;
+
+@RunWith(MockitoJUnitRunner.class)
+public class AuthServiceTests {
+
+	AuthService authService;
+	
+	@Mock 
+	IAuthDAO iAuthDAO;
+	
+	@Before
+	public void setAuthService()
+	{
+		authService = new AuthService(iAuthDAO);
+	}
+	
+	
+	@Test
+	public void testGetAllRegistered() {
+		List<Person> testList = new ArrayList<>();
+		testList.add(new Person());
+		testList.add(new Person());
+		
+		when(personDao.getAllPeople()).thenReturn(testList);
+		
+		List<Person> resultList = personService.getAllRegistered();
+		
+		assertEquals(testList, resultList);
+	}
+}

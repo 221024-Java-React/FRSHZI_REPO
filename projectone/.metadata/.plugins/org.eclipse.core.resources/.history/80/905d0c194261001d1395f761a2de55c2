@@ -1,0 +1,13 @@
+package Exception;
+
+public class NotExistException extends RuntimeException {
+
+	private static final long serialVersionUID = 1L;
+	
+	
+	public  NotExistException ()
+	{
+		super("No records found");
+	}
+
+}
