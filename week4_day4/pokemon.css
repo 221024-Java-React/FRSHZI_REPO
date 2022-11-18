@@ -1,0 +1,36 @@
+*{
+    font-size: 1.2em;
+}
+
+#pokemon_container{
+    display: flex;
+    flex-direction: row;
+    justify-content:flex-start;
+   margin: 75px 75px;
+}
+
+#newPokemon{
+   margin-left: 75px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+   
+}
+
+.newDiv{
+   display: flex;
+align-items: center;
+justify-content: flex-start;
+border-style: solid;
+margin: 10px;
+padding-left: 5px;
+}
+
+.newName{
+font-weight: 400;
+}
+
+.newImage
+{
+    width:200px;
+}
