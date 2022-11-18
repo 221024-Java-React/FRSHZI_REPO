@@ -1,7 +1,8 @@
 document.getElementById("auth");
 
 
-document.getElementById("auth").addEventListener("submit", Login);
+document.getElementById("login").addEventListener("click", Login);
+document.getElementById("register").addEventListener("click", Register);
 
 
 
@@ -60,7 +61,7 @@ document.getElementById("auth").addEventListener("submit", Login);
         if(response.ok){
             return response.json();
         } else {
-           console.log("This person already registered");
+           console.log("Invalid username or password");
         }
     })
     .then((data) => {

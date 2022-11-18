@@ -23,9 +23,11 @@ html, body{
     padding: 50px;
 }
 
-#register{
+.authentication{
     background-color: blue;
     color:white;
-    padding: 15px;
+    padding: 10px;
 }
+
+
    
