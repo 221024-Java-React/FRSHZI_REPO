@@ -1,12 +1,31 @@
 document.getElementById("auth");
 
 
-document.getElementById("login").addEventListener("click", Login);
+document.getElementById("login").addEventListener("click", testLogin);
 document.getElementById("register").addEventListener("click", Register);
 
+async function testLogin(e)
+{
+    e.preventDefault();
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
+    console.log(`username ${email}  password ${password}`);
+    
+    let url = `http://localhost:8000/user/login?email=${email}&password=${password}`;
+    try{
+        
+        let req = await  fetch(url);
+        let response = await req.text();
+        console.log(response);
+       // createPokemon(response);
+    } catch(e){
+        console.log("Something went wrong with the request  "+e);
+    }
+    
+}
 
 
- function Register(e)
+ async function Register(e)
 {
     e.preventDefault();
     let email = document.getElementById("email").value;
@@ -19,24 +38,19 @@ document.getElementById("register").addEventListener("click", Register);
     }
     console.log(user);
     const URL = "http://localhost:8000/user/register";
-    fetch(URL, {
+    try{
+    let req = await  fetch(URL, {
         method: "POST",
         body: JSON.stringify(user)
-    })
-    .then((response) => {
-        console.log(response);
-        if(response.ok){
-            return response.json();
-        } else {
-           console.log("This person already registered");
-        }
-    })
-    .then((data) => {
-      console.log(data);
-    })
-    .catch(e => {
-        console.log(e);
     });
+   
+    let response = await req.text();
+        console.log(response);
+       // createPokemon(response);
+    } catch(e){
+        console.log("This person is already registered  "+e);
+    }
+    
 }
 
     function Login(e)
